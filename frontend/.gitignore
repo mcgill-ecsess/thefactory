@@ -81,3 +81,6 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://mrkandreev.name/snippets/gitignore-generator/#Linux,react,macOS,Windows
+
+# Build version of the wesbsite
+dist
