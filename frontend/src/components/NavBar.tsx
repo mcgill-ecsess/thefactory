@@ -52,6 +52,8 @@ function NavBar(props: NavBarProps) {
     }
   };
 
+  console.log(status);
+
   return (
     <>
       {/* Mobile Navbar */}
