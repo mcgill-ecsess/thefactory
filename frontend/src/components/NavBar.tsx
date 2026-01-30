@@ -77,22 +77,6 @@ function NavBar(props: NavBarProps) {
 
       {/* Desktop Navbar */}
       <nav className="h-24 bg-factory-blue hidden lg:flex justify-between px-12 font-medium top-0 left-0 right-0 z-50">
-        <div
-          className={`absolute font-semibold text-center left-1/2 transform translate-x-[-50%] pb-2 px-11 pt-3 rounded-b-3xl ${
-            status ? "bg-factory-green" : "bg-red-400"
-          }`}
-        >
-          {status ? (
-            <>
-              {" "}
-              <p>Lab Status : Open ✅</p>{" "}
-              <p className="text-sm">(During Office Hour Schedule)</p>{" "}
-            </>
-          ) : (
-            "Lab Status: Closed ⛔ "
-          )}
-        </div>
-
         <div className="flex gap-3 text-white items-center h-full">
           <img src="/factory_logo_512x512.png" alt="" className="w-14 mb-4" />
           <h1 className="text-white text-4xl font-medium">The Factory</h1>
