@@ -1,0 +1,60 @@
+@import "tailwindcss";
+/* @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');  */
+
+/* Just a quick css message in case you are lost:
+Here is all the golbal css for the app, like the green color that is found all over the app
+its like the constant variables.
+
+If you are looking for the css for a specific component, look in the component's file, on the line that says "className="..."
+Sometimes for some pages, like Home for example (src/app/page.tsx), you will find some global variables for that page only in the file itself, like the bgColor for the FAQ section.
+its going to be under something like const styles = {}
+
+
+/* CUSTOM CLASSES FOR THE APP */
+@theme {
+  --color-factory-blue: #2c3e50;
+  --color-factory-green: #57bf94;
+  --color-factory-black: #2C3139;
+  --color-factory-dark-black: #272C32;
+  --color-factory-dark-green: #4ca981;
+  --color-dark-brown: #2C3139;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  /* Match frontend: exact Tailwind default sans stack (v3/v4). Don't add Arial first – it changes weight rendering. */
+  --font-sans: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  /* Hero height: viewport minus navbar (96px) - Tailwind v4 reads theme from here, not config */
+  --height-customh: calc(100vh - 96px);
+}
+
+
+:root { /* Default background and foreground colors */
+  --background: #ffffff;
+  --foreground: #171717;
+}
+/* Dark mode ............... TO DO, I aint doing that XD -raph*/
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #ffffff;
+    --foreground: #171717;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  /* Inherit font from html (Tailwind preflight uses --font-sans). Don't override with Arial – frontend has no body font, so this matches. */
+  margin: 0;
+}
+
+/* Nav links for Members/Inventory - match other navbar links */
+.nav-link {
+  color: white;
+}
+.nav-link:hover {
+  color: #57bf94;
+  text-decoration: underline;
+  text-decoration-color: #57bf94;
+  text-decoration-thickness: 3px;
+  text-underline-offset: 4px;
+}
