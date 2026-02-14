@@ -29,7 +29,7 @@ export const InventoryProvider = ({ children }: { children: React.ReactNode }) =
   const [inventory, setInventory] = useState<InventoryItem[]>([]);
 
   // Get the API key from the environment variable
-  const apiKey = process.env.VITE_API_KEY || "";
+  const apiKey = process.env.NEXT_PUBLIC_API_KEY || "";
 
   useEffect(() => {
     // Fetch inventory items from Strapi API

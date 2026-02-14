@@ -52,7 +52,7 @@ export default function Members() {
   // Fetch members from the API using the API key from the .env file
   const fetchMembers = async () => {
     try {
-      const apiKey = process.env.VITE_API_KEY; // Access the API key from .env file
+      const apiKey = process.env.NEXT_PUBLIC_API_KEY; // Access the API key from .env file
       const response = await axios.get("https://factorystrapi.mcgilleus.ca/api/members", {
         headers: {
           Authorization: `Bearer ${apiKey}`, // Use the API key from the environment

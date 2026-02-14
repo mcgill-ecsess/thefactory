@@ -25,7 +25,7 @@ export default function ModifyMember() {
   const [error, setError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
-  const apiKey = process.env.VITE_API_KEY;
+  const apiKey = process.env.NEXT_PUBLIC_API_KEY;
 
   useEffect(() => {
     if (typeof window === "undefined") return;

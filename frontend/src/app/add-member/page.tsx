@@ -25,7 +25,7 @@ export default function AddMember() {
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  const apiKey = process.env.VITE_API_KEY;
+  const apiKey = process.env.NEXT_PUBLIC_API_KEY;
 
   // Handle form change
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {

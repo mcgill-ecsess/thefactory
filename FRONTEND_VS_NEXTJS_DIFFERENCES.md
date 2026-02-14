@@ -754,17 +754,17 @@ Vite uses `import.meta.env` to access environment variables.
 
 **Naming Convention:**
 - Must start with `VITE_` to be exposed to client code
-- Example: `VITE_API_KEY`
+- Example: `NEXT_PUBLIC_API_KEY`
 
 **Usage:**
 ```tsx
-const apiKey = import.meta.env.VITE_API_KEY;
+const apiKey = import.meta.env.NEXT_PUBLIC_API_KEY;
 ```
 
 **Example from `Home.tsx`:**
 ```tsx
 useEffect(() => {
-  const apiKey = import.meta.env.VITE_API_KEY;
+  const apiKey = import.meta.env.NEXT_PUBLIC_API_KEY;
   fetch("https://factorystrapi.mcgilleus.ca/api/faqs", {
     headers: {
       Authorization: `Bearer ${apiKey}`,
@@ -776,7 +776,7 @@ useEffect(() => {
 **Environment File:**
 Create a `.env` file in the `old-react-frontend/` directory:
 ```
-VITE_API_KEY=your_api_key_here
+NEXT_PUBLIC_API_KEY=your_api_key_here
 ```
 
 ### `nextjs-frontend/` - Next.js Environment Variables
@@ -786,17 +786,17 @@ Next.js uses `process.env` to access environment variables.
 
 **Naming Convention:**
 - Must start with `NEXT_PUBLIC_` to be exposed to client code
-- Example: `VITE_API_KEY`
+- Example: `NEXT_PUBLIC_API_KEY`
 
 **Usage:**
 ```tsx
-const apiKey = process.env.VITE_API_KEY;
+const apiKey = process.env.NEXT_PUBLIC_API_KEY;
 ```
 
 **Example from `page.tsx`:**
 ```tsx
 useEffect(() => {
-  const apiKey = process.env.VITE_API_KEY;
+  const apiKey = process.env.NEXT_PUBLIC_API_KEY;
   fetch("https://factorystrapi.mcgilleus.ca/api/faqs", {
     headers: {
       Authorization: `Bearer ${apiKey}`,
@@ -808,7 +808,7 @@ useEffect(() => {
 **Environment File:**
 Create a `.env.local` file in the `nextjs-frontend/` directory:
 ```
-VITE_API_KEY=your_api_key_here
+NEXT_PUBLIC_API_KEY=your_api_key_here
 ```
 
 **Important Notes:**
@@ -821,7 +821,7 @@ VITE_API_KEY=your_api_key_here
 |---------|-------------|-------------------|
 | Access Method | `import.meta.env` | `process.env` |
 | Prefix | `VITE_` | `NEXT_PUBLIC_` |
-| Example | `VITE_API_KEY` | `VITE_API_KEY` |
+| Example | `NEXT_PUBLIC_API_KEY` | `NEXT_PUBLIC_API_KEY` |
 | File Name | `.env` | `.env.local` |
 
 ---
@@ -1110,8 +1110,8 @@ const memberId = params.memberId as string;
    - `nextjs-frontend/`: Use `@/` alias
 
 3. **Wrong environment variable prefix**
-   - `old-react-frontend/`: `VITE_API_KEY`
-   - `nextjs-frontend/`: `VITE_API_KEY`
+   - `old-react-frontend/`: `NEXT_PUBLIC_API_KEY`
+   - `nextjs-frontend/`: `NEXT_PUBLIC_API_KEY`
 
 4. **Wrong navigation method**
    - `old-react-frontend/`: `navigate("/path")` from `useNavigate()`

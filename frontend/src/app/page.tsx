@@ -39,7 +39,7 @@ export default function Home() {
   }>({ rows: [] });
 
   useEffect(() => {
-    const apiKey = process.env.VITE_API_KEY; // Access the API key from .env file
+    const apiKey = process.env.NEXT_PUBLIC_API_KEY; // Access the API key from .env file
 
     fetch("https://factorystrapi.mcgilleus.ca/api/faqs", {
       method: "GET",

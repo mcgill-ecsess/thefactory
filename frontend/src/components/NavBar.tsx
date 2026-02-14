@@ -25,7 +25,7 @@ function NavBar(props: NavBarProps) {
 
   // Check token validity and update context on component mount
   useEffect(() => {
-    const apiKey = process.env.VITE_API_KEY || "";
+    const apiKey = process.env.NEXT_PUBLIC_API_KEY || "";
 
     fetch("https://factorystrapi.mcgilleus.ca/api/open-status", {
       method: "GET",
