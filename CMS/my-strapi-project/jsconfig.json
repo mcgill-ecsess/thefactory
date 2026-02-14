@@ -1,6 +1,7 @@
 {
-  "compilerOptions": { 
-    "moduleResolution": "nodenext",
+  "compilerOptions": {
+    "module": "NodeNext",
+    "moduleResolution": "nodenext", // This is the key line that makes it work
     "target": "ES2021",
     "checkJs": true,
     "allowJs": true

@@ -18,7 +18,7 @@ export function ManagerAndLabProvider({ children }: { children: ReactNode }) {
   const [workshops, setWorkshops] = useState<WorkshopDT[] | null>(null);
 
   useEffect(() => {
-    const apiKey = process.env.NEXT_PUBLIC_API_KEY || "";
+    const apiKey = process.env.VITE_API_KEY || "";
 
     // Fetch managers
     fetch("https://factorystrapi.mcgilleus.ca/api/managers?populate=*", {
