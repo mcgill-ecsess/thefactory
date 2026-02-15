@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Accordion,
   AccordionDetails,
@@ -7,7 +9,7 @@ import {
 import { ExpandMoreOutlined } from "@mui/icons-material";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import { WorkshopDT } from "../types/WorkshopDT.ts";
+import { WorkshopDT } from "../types/WorkshopDT";
 import { Presentation, UserRoundCheck } from "lucide-react";
 
 export function WorkshopAccordion(props: {

@@ -1,3 +1,4 @@
+"use client";
 import { createContext, useState, useEffect } from "react";
 import axios from "axios";
 
@@ -28,18 +29,33 @@ export const InventoryProvider = ({ children }: { children: React.ReactNode }) =
   const [inventory, setInventory] = useState<InventoryItem[]>([]);
 
   // Get the API key from the environment variable
-  const apiKey = import.meta.env.VITE_API_KEY;
+  const apiKey = process.env.NEXT_PUBLIC_API_KEY || "";
 
   useEffect(() => {
     // Fetch inventory items from Strapi API
     axios
-      .get("/api/inventory-items", {
+      .get("https://factorystrapi.mcgilleus.ca/api/inventory-items", {
         headers: {
           Authorization: `Bearer ${apiKey}`, // Set the Authorization header with the API key
         },
       })
       .then((response) => {
-        setInventory(response.data.data); // Adjust based on Strapi response format
+        // Transform Strapi response format (with attributes) to flat format
+        const inventoryData = response.data.data.map((item: any) => ({
+          id: item.id,
+          name: item.attributes.name,
+          quantity: item.attributes.quantity,
+          category: item.attributes.category,
+          description: item.attributes.description,
+          brand: item.attributes.brand,
+          modelNumber: item.attributes.modelNumber,
+          serialNumber: item.attributes.serialNumber,
+          location: item.attributes.location,
+          state: item.attributes.state,
+          type: item.attributes.type,
+          class: item.attributes.class,
+        }));
+        setInventory(inventoryData);
       })
       .catch((error) => {
         console.error("Failed to fetch inventory items:", error);

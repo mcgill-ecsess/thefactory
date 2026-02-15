@@ -1,8 +1,10 @@
-import { ThemeProvider } from "@mui/material/styles"; // Import ThemeProvider
-import theme from "../theme.ts"; // Import your custom theme
-import { WorkshopAccordion } from "./WorkshopAccordion.tsx";
-import { WorkshopDT } from "../types/WorkshopDT.ts";
-import { PageSection } from "./PageSection.tsx";
+"use client";
+
+import { ThemeProvider } from "@mui/material/styles";
+import theme from "@/theme";
+import { WorkshopAccordion } from "./WorkshopAccordion";
+import { WorkshopDT } from "../types/WorkshopDT";
+import { PageSection } from "./PageSection";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import React from "react";
@@ -56,7 +58,6 @@ export function PastWorkshops(props: PastWorkshopsProps) {
           variant="scrollable"
           scrollButtons="auto"
           aria-label="scrollable auto tabs example"
-          centered
         >
           {semesters.map((semester, index) => (
             <Tab label={semester} key={index} />

@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Avatar,
   Chip,
@@ -76,9 +78,7 @@ export default function ManagerInfo(props: {
               <Link
                 color="#4ca981"
                 underline="hover"
-                onClick={() =>
-                  (window.location.href = `mailto:${manager.attributes.McGill_Email}`)
-                }
+                href={`mailto:${manager.attributes.McGill_Email}`}
               >
                 <Typography variant="caption">
                   {manager.attributes.McGill_Email}

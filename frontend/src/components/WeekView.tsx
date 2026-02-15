@@ -1,6 +1,8 @@
+"use client";
+
 import { useState } from "react";
-import ManagerInfo from "./ManagerInfo.tsx";
-import { FactoryManager } from "../types/FactoryManager.ts";
+import ManagerInfo from "./ManagerInfo";
+import { FactoryManager } from "../types/FactoryManager";
 
 export default function WeekView(props: {
   officeHours: { [key: string]: FactoryManager[] };
