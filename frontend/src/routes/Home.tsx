@@ -216,7 +216,7 @@ function Home() {
           </div>
 
           <a
-            href="https://airtable.com/appGh7ESCOFPw5h8R/shrhzcuLK6GuizjBQ"
+            href="https://factorydb.notkaramel.dev/dashboard/#/nc/form/b1f34cd8-bde2-490c-abd9-dadbada72737"
             target="_blank" // Opens in a new tab
             rel="noopener noreferrer" // For security reasons to prevent tab hijacking
             className="bg-factory-green p-3 rounded-lg mt-14 text-white font-semibold mb-8 hover:bg-factory-dark-green"
@@ -384,7 +384,7 @@ function Home() {
           </div>
 
           <a
-            href="https://airtable.com/appGh7ESCOFPw5h8R/shrhzcuLK6GuizjBQ"
+            href="https://factorydb.notkaramel.dev/dashboard/#/nc/form/b1f34cd8-bde2-490c-abd9-dadbada72737"
             target="_blank" // Opens in a new tab
             rel="noopener noreferrer" // For security reasons to prevent tab hijacking
             className="bg-factory-green p-3 rounded-lg mt-14 text-white font-semibold mb-8 hover:bg-factory-dark-green"
