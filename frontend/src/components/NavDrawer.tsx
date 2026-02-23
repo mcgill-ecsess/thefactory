@@ -1,4 +1,7 @@
-import { NavLink } from "react-router-dom";
+"use client";
+
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 type NavDrawerProps = {
   toggleDrawer: () => void;
@@ -6,6 +9,8 @@ type NavDrawerProps = {
 };
 
 const NavDrawer = (props: NavDrawerProps) => {
+  const pathname = usePathname();
+
   return (
     <div
       className={`flex flex-col pb-8 text-white items-center justify-between font-museo-moderno text-[25px] text-cream font-black fixed top-0 left-0 w-96 h-full bg-factory-blue transform ${
@@ -18,46 +23,42 @@ const NavDrawer = (props: NavDrawerProps) => {
           alt=""
           className="h-12 mt-10"
         />
-        <NavLink
-          to="/"
-          style={({ isActive }) => ({
-            color: isActive ? "#57bf94" : "white",
-          })}
+        <Link
+          href="/"
+          style={{
+            color: pathname === "/" ? "#57bf94" : "white",
+          }}
           onClick={props.toggleDrawer}
-          end
         >
           Home
-        </NavLink>
-        <NavLink
-          to="/office-hours"
-          style={({ isActive }) => ({
-            color: isActive ? "#57bf94" : "white",
-          })}
+        </Link>
+        <Link
+          href="/office-hours"
+          style={{
+            color: pathname === "/office-hours" ? "#57bf94" : "white",
+          }}
           onClick={props.toggleDrawer}
-          end
         >
           Office Hours
-        </NavLink>
-        <NavLink
-          to="/workshops"
-          style={({ isActive }) => ({
-            color: isActive ? "#57bf94" : "white",
-          })}
+        </Link>
+        <Link
+          href="/workshops"
+          style={{
+            color: pathname === "/workshops" ? "#57bf94" : "white",
+          }}
           onClick={props.toggleDrawer}
-          end
         >
           Workshops
-        </NavLink>
-        <NavLink
-          to="/our-lab"
-          style={({ isActive }) => ({
-            color: isActive ? "#57bf94" : "white",
-          })}
+        </Link>
+        <Link
+          href="/our-lab"
+          style={{
+            color: pathname === "/our-lab" ? "#57bf94" : "white",
+          }}
           onClick={props.toggleDrawer}
-          end
         >
           Our Lab
-        </NavLink>
+        </Link>
       </div>
 
       <div className="flex flex-col items-center gap-3 w-full px-6">

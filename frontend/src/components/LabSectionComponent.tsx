@@ -1,7 +1,9 @@
+"use client";
+
 import { Divider, Typography } from "@mui/material";
 import { LabSectionRow } from "../types/LabSectionRow";
 import ReactSimplyCarousel from "react-simply-carousel";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react"; // Import arrow icons
 
 type LabSectionComponentProps = {
@@ -14,6 +16,15 @@ export default function LabSectionComponent(props: LabSectionComponentProps) {
 
   // Function to dynamically set the size of the arrows based on screen width
   const getArrowSize = () => {
+    // Guard against server-side rendering where window is not defined
+    if (typeof window === "undefined") {
+      return {
+        size: 30,
+        height: 60,
+        width: 60,
+      };
+    }
+
     if (window.innerWidth >= 1300) {
       return {
         size: 40, // Icon size in pixels
@@ -35,7 +46,18 @@ export default function LabSectionComponent(props: LabSectionComponentProps) {
     }
   };
 
-  const arrowSize = getArrowSize();
+  const [arrowSize, setArrowSize] = useState(getArrowSize);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setArrowSize(getArrowSize());
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   return (
     <div className="w-full bg-factory-black text-white">
@@ -175,9 +197,7 @@ function LabSectionRowComponent(props: SectionProps) {
               <li key={index} className="list-disc my-5 text-lg font-medium">
                 {child.children[0].text}
               </li>
-            ) : (
-              <></>
-            );
+            ) : null;
           })}
         </ul>
       ) : (

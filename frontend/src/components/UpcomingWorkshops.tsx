@@ -1,6 +1,8 @@
-import { WorkshopAccordion } from "./WorkshopAccordion.tsx";
-import { WorkshopDT } from "../types/WorkshopDT.ts";
-import { PageSection } from "./PageSection.tsx";
+"use client";
+
+import { WorkshopAccordion } from "./WorkshopAccordion";
+import { WorkshopDT } from "../types/WorkshopDT";
+import { PageSection } from "./PageSection";
 
 type UpcomingWorkshopsProps = {
   upcomingWorkshops: WorkshopDT[];

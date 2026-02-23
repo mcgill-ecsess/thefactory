@@ -6,7 +6,7 @@ const theme = createTheme({
       main: "#4ca981", // Factory green for primary color
     },
     text: {
-      primary: "black", // Default text color
+      primary: "#000000", // Default text color
     },
   },
   components: {
@@ -22,7 +22,7 @@ const theme = createTheme({
         root: {
           textTransform: "none", // Prevent uppercase
           fontWeight: "bold",
-          color: "black", // Default tab text color
+          color: "#000000", // Default tab text color
           "&.Mui-selected": {
             color: "#4ca981", // Selected tab text color
           },

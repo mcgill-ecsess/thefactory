@@ -1,7 +1,10 @@
+"use client";
+
 import React from "react";
 import Box from "@mui/material/Box";
 import { Divider, Typography } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
+import { ThemeProvider, useTheme } from "@mui/material/styles";
+import theme from "@/theme";
 
 export function PageSection(props: {
   title: string;
@@ -10,10 +13,26 @@ export function PageSection(props: {
   sx?: any;
   className?: string;
 }) {
+  return (
+    <ThemeProvider theme={theme}>
+      <PageSectionInner {...props} />
+    </ThemeProvider>
+  );
+}
+
+function PageSectionInner(props: {
+  title: string;
+  color?: string;
+  children: React.ReactNode;
+  sx?: any;
+  className?: string;
+}) {
   const theme = useTheme();
   const color =
-    props.color == "white"
+    props.color === "white"
       ? theme.palette.common.white
+      : props.color === "black"
+      ? "#000000"
       : theme.palette.common.black;
   return (
     <Box

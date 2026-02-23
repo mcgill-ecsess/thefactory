@@ -1,8 +1,8 @@
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { Divider } from "@mui/material";
-import WeekView from "./WeekView.tsx";
-import { FactoryManager } from "../types/FactoryManager.ts";
+import WeekView from "./WeekView";
+import { FactoryManager } from "../types/FactoryManager";
 
 type WeekViewSectionProps = {
   managers: FactoryManager[];

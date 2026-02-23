@@ -1,5 +1,6 @@
+"use client";
 import { createContext, useState, useEffect, ReactNode } from 'react';
-import { useNavigate } from 'react-router-dom';
+  import { useRouter } from 'next/navigation';
 import { jwtDecode } from 'jwt-decode'; // Import jwt-decode to decode the token
 
 // Define the shape of the context
@@ -14,7 +15,7 @@ export const LoginContext = createContext<LoginContextType | null>(null);
 // Create a provider component to wrap around the parts of your app that need access to this context
 export const LoginProvider = ({ children }: { children: ReactNode }) => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
-  const navigate = useNavigate();
+  const router = useRouter();
 
   // Check for login token in localStorage and validate it
   useEffect(() => {
@@ -30,7 +31,7 @@ export const LoginProvider = ({ children }: { children: ReactNode }) => {
           // Token expired, log out the user
           localStorage.removeItem("token"); // Remove the invalid token
           setIsLoggedIn(false); // Update logged-in status
-          navigate("/login"); // Redirect to login page
+          router.push("/login"); // Redirect to login page
         } else {
           setIsLoggedIn(true); // Token is valid, user is logged in
         }
@@ -39,12 +40,12 @@ export const LoginProvider = ({ children }: { children: ReactNode }) => {
         // If the token is invalid or decoding fails, log out the user
         localStorage.removeItem("token");
         setIsLoggedIn(false);
-        navigate("/login"); // Redirect to login page
+        router.push("/login"); // Redirect to login page
       }
     } else {
       setIsLoggedIn(false); // No token found, user is not logged in
     }
-  }, [navigate]); // This will run only once when the component mounts
+  }, [router]); // This will run only once when the component mounts
 
   // Function to set login state manually if needed
   const setLoggedIn = (value: boolean) => {

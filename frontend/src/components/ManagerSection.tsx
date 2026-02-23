@@ -1,10 +1,12 @@
+"use client";
+
 import Typography from "@mui/material/Typography";
 import { Divider, Grid } from "@mui/material";
 import Box from "@mui/material/Box";
-import ManagerCard from "./ManagerCard.tsx";
+import ManagerCard from "./ManagerCard";
 import { useState } from "react";
-import ManagerInfo from "./ManagerInfo.tsx";
-import { FactoryManager } from "../types/FactoryManager.ts";
+import ManagerInfo from "./ManagerInfo";
+import { FactoryManager } from "../types/FactoryManager";
 
 type ManagerSectionProps = {
   managers: FactoryManager[];
@@ -93,29 +95,18 @@ export function ManagerSection(props: ManagerSectionProps) {
       <Grid container className="justify-center w-full max-w-7xl">
         {sortedSteeringCommitee.map((manager) => {
           return (
-            <Grid item xs={6} sm={4} md={3} lg={2}>
-              <ManagerCard
-                manager={manager}
-                key={manager.id}
-                onClick={selectManager}
-              />
+            <Grid size={{ xs: 6, sm: 4, md: 3, lg: 2 }} key={manager.id}>
+              <ManagerCard manager={manager} onClick={selectManager} />
             </Grid>
           );
         })}
       </Grid>
-      <Typography variant="h6" className="self-center mt-20">
-        General Managers
-      </Typography>
+      <Typography variant="h6" className="self-center mt-20">General Managers</Typography>
       <Grid container className="justify-center w-full  max-w-7xl">
         {generalManagers.map((manager) => {
-          
           return (
-            <Grid item xs={6} sm={4} md={3} lg={2}>
-              <ManagerCard
-                manager={manager}
-                key={manager.id}
-                onClick={selectManager}
-              />
+            <Grid size={{ xs: 6, sm: 4, md: 3, lg: 2 }} key={manager.id}>
+              <ManagerCard manager={manager} onClick={selectManager} />
             </Grid>
           );
         })}

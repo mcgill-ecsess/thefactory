@@ -1,7 +1,10 @@
+"use client";
+
 import { useContext, useEffect, useState } from "react";
 import { Menu, X, Copy } from "lucide-react"; // Import the Copy icon
 import { LoginContext } from "../Contexts/LoginContext";
-import { NavLink } from "react-router-dom";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 type NavBarProps = {
   toggleDrawer: () => void;
@@ -13,15 +16,21 @@ function NavBar(props: NavBarProps) {
   const [status, setStatus] = useState<boolean>();
   const [contactPopupOpen, setContactPopupOpen] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  const pathname = usePathname();
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // Check token validity and update context on component mount
   useEffect(() => {
-    const apiKey = import.meta.env.VITE_API_KEY; // Access the API key from .env file
+    const apiKey = process.env.NEXT_PUBLIC_API_KEY || "";
 
     fetch("https://factorystrapi.mcgilleus.ca/api/open-status", {
       method: "GET",
       headers: {
-        Authorization: `Bearer ${apiKey}`, // Use the API key in the Authorization header
+        Authorization: `Bearer ${apiKey}`,
       },
     })
       .then((response) => response.json())
@@ -31,7 +40,7 @@ function NavBar(props: NavBarProps) {
         setStatus(data.data.attributes.status);
       })
       .catch((error) => console.log(error));
-  });
+  }, []);
 
   const openContactPopup = () => {
     setContactPopupOpen(true);
@@ -63,7 +72,7 @@ function NavBar(props: NavBarProps) {
           alt="Factory Logo"
           className="h-12"
         />
-        <div className="lg:hidden cursor-pointer bg-dark-brown p-2 mr-4">
+        <div className="lg:hidden cursor-pointer p-2 mr-4">
           <button
             onClick={props.toggleDrawer}
             className="transition-transform duration-1000 ease-in-out"
@@ -77,65 +86,65 @@ function NavBar(props: NavBarProps) {
         </div>
       </nav>
 
-      {/* Desktop Navbar */}
+      {/* Desktop Navbar - no sticky so it scrolls away like frontend */}
       <nav className="h-24 bg-factory-blue hidden lg:flex justify-between px-12 font-medium top-0 left-0 right-0 z-50">
         <div className="flex gap-3 text-white items-center h-full">
           <img src="/factory_logo_512x512.png" alt="" className="w-14 mb-4" />
           <h1 className="text-white text-4xl font-medium">The Factory</h1>
           <div className="flex gap-3 font-medium mt-1 ml-3">
-            <NavLink
-              to="/"
-              className={({ isActive }) =>
-                isActive
+            <Link
+              href="/"
+              className={
+                mounted && pathname === "/"
                   ? "text-[#57bf94] underline decoration-[#57bf94] decoration-[3px] underline-offset-4"
                   : "text-white hover:text-[#57bf94] hover:underline hover:decoration-[#57bf94] hover:decoration-[3px] hover:underline-offset-4"
               }
             >
               Home
-            </NavLink>
+            </Link>
 
-            <NavLink
-              to="/office-hours"
-              className={({ isActive }) =>
-                isActive
+            <Link
+              href="/office-hours"
+              className={
+                mounted && pathname === "/office-hours"
                   ? "text-[#57bf94] underline decoration-[#57bf94] decoration-[3px] underline-offset-4"
                   : "text-white hover:text-[#57bf94] hover:underline hover:decoration-[#57bf94] hover:decoration-[3px] hover:underline-offset-4"
               }
             >
               Office Hours
-            </NavLink>
+            </Link>
 
-            <NavLink
-              to="/workshops"
-              className={({ isActive }) =>
-                isActive
+            <Link
+              href="/workshops"
+              className={
+                mounted && pathname === "/workshops"
                   ? "text-[#57bf94] underline decoration-[#57bf94] decoration-[3px] underline-offset-4"
                   : "text-white hover:text-[#57bf94] hover:underline hover:decoration-[#57bf94] hover:decoration-[3px] hover:underline-offset-4"
               }
             >
               Workshops
-            </NavLink>
+            </Link>
 
-            <NavLink
-              to="/our-lab"
-              className={({ isActive }) =>
-                isActive
+            <Link
+              href="/our-lab"
+              className={
+                mounted && pathname === "/our-lab"
                   ? "text-[#57bf94] underline decoration-[#57bf94] decoration-[3px] underline-offset-4"
                   : "text-white hover:text-[#57bf94] hover:underline hover:decoration-[#57bf94] hover:decoration-[3px] hover:underline-offset-4"
               }
             >
               Our Lab
-            </NavLink>
+            </Link>
 
             {/* Only show Members and Inventory links if logged in */}
             {loginContext?.isLoggedIn && (
               <>
-                <NavLink to="/members" className="nav-link">
+                <Link href="/members" className="nav-link">
                   Members
-                </NavLink>
-                <NavLink to="/inventory" className="nav-link">
+                </Link>
+                <Link href="/inventory" className="nav-link">
                   Inventory
-                </NavLink>
+                </Link>
               </>
             )}
           </div>

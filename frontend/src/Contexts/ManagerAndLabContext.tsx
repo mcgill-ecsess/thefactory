@@ -1,3 +1,4 @@
+"use client";
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
 import { FactoryManager } from "../types/FactoryManager";
 import { LabSection } from "../types/LabSection";
@@ -17,7 +18,7 @@ export function ManagerAndLabProvider({ children }: { children: ReactNode }) {
   const [workshops, setWorkshops] = useState<WorkshopDT[] | null>(null);
 
   useEffect(() => {
-    const apiKey = import.meta.env.VITE_API_KEY;
+    const apiKey = process.env.NEXT_PUBLIC_API_KEY || "";
 
     // Fetch managers
     fetch("https://factorystrapi.mcgilleus.ca/api/managers?populate=*", {

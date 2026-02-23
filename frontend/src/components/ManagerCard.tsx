@@ -1,3 +1,5 @@
+"use client";
+
 import Box from "@mui/material/Box";
 import { Avatar, Link } from "@mui/material";
 import Typography from "@mui/material/Typography";
@@ -37,11 +39,18 @@ export default function ManagerCard(props: {
       </Typography>
       <Link
         className="text-center"
-        color="#57bf94"
         underline="hover"
         onClick={() => props.onClick(props.manager)}
+        sx={{
+          color: "#57bf94",
+          "&:hover": {
+            color: "#4ca981",
+          },
+        }}
       >
-        <Typography variant="caption">View Profile</Typography>
+        <Typography variant="caption" sx={{ color: "#57bf94" }}>
+          View Profile
+        </Typography>
       </Link>
     </Box>
   );
