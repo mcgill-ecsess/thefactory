@@ -1,8 +1,6 @@
 "use client";
 
-import Typography from "@mui/material/Typography";
-import { Divider, Grid } from "@mui/material";
-import Box from "@mui/material/Box";
+import { Grid } from "@mui/material";
 import ManagerCard from "./ManagerCard";
 import { useState } from "react";
 import ManagerInfo from "./ManagerInfo";
@@ -10,112 +8,80 @@ import { FactoryManager } from "../types/FactoryManager";
 
 type ManagerSectionProps = {
   managers: FactoryManager[];
-  
 };
+
+const roleOrder = [
+  "Head Manager",
+  "Technical Director",
+  "Finance Manager",
+  "Workshop Manager",
+  "Communications Manager",
+];
 
 export function ManagerSection(props: ManagerSectionProps) {
   const [open, setOpen] = useState(false);
-  const [selectedManager, setSelectedManager] = useState<FactoryManager | null>(
-    null
+  const [selectedManager, setSelectedManager] = useState<FactoryManager | null>(null);
+
+  const steeringCommittee = props.managers
+    .filter((m) => roleOrder.includes(m.attributes.Role))
+    .sort((a, b) => roleOrder.indexOf(a.attributes.Role) - roleOrder.indexOf(b.attributes.Role));
+
+  const generalManagers = props.managers.filter(
+    (m) => m.attributes.Role === "General Manager" || m.attributes.Role === "Factory Advisor"
   );
 
-  const roleOrder = [
-    "Head Manager",
-    "Technical Director",
-    "Finance Manager",
-    "Workshop Manager",
-    "Communications Manager",
-  ];
-
-  let steeringCommitteeTest: FactoryManager[] = props.managers.filter(
-    (manager) =>
-      manager.attributes.Role === "Head Manager" ||
-      manager.attributes.Role === "Technical Director" ||
-      manager.attributes.Role === "Communications Manager" ||
-      manager.attributes.Role === "Finance Manager" ||
-      manager.attributes.Role === "Workshop Manager" 
-  );
-
-  let sortedSteeringCommitee: FactoryManager[] = steeringCommitteeTest.sort(
-    (a, b) => {
-      // Get the index of each manager's role in the roleOrder array
-      const roleIndexA = roleOrder.indexOf(a.attributes.Role);
-      const roleIndexB = roleOrder.indexOf(b.attributes.Role);
-
-      // Compare the indices to determine the sort order
-      return roleIndexA - roleIndexB;
-    }
-  );
-
-  let generalManagers: FactoryManager[] = props.managers.filter(
-    (manager) =>
-      manager.attributes.Role === "General Manager" ||
-      manager.attributes.Role === "Factory Advisor"
-  );
-
-  function selectManager(manager: FactoryManager) {
+  const selectManager = (manager: FactoryManager) => {
     setSelectedManager(manager);
     setOpen(true);
-  }
+  };
 
   return (
-    <Box
-      className="py-10 px-8 flex flex-col basis-full items-center"
-      bgcolor="#2C3139"
-      color="#FFFFFF"
-    >
-      <Typography
-        className="text-center"
-        sx={{
-          fontSize: {
-            md: "4rem", // Size for medium screens and above
-            sm: "3.5rem", // Size for small screens
-            xs: "2.5rem", // Size for extra-small screens
-          },
-        }}
-      >
-        Managers
-      </Typography>
+    <section className="bg-factory-black text-white py-16 px-6">
+      <div className="max-w-6xl mx-auto">
+        {/* Header */}
+        <div className="text-center mb-12">
+          <h2 className="text-3xl md:text-4xl font-bold">Managers</h2>
+          <div className="section-divider" />
+        </div>
 
-      <Divider
-        aria-hidden="true"
-        sx={{
-          opacity: 1,
-          borderColor: "#FFFFFF",
-          borderWidth: 2,
-          width: "10%",
-          alignSelf: "center",
-          marginTop: "0.3rem",
-          marginBottom: "1rem",
-        }}
-      />
-      <Typography variant="h6" className="self-center">
-        Steering Committee
-      </Typography>
-      <Grid container className="justify-center w-full max-w-7xl">
-        {sortedSteeringCommitee.map((manager) => {
-          return (
-            <Grid size={{ xs: 6, sm: 4, md: 3, lg: 2 }} key={manager.id}>
-              <ManagerCard manager={manager} onClick={selectManager} />
-            </Grid>
-          );
-        })}
-      </Grid>
-      <Typography variant="h6" className="self-center mt-20">General Managers</Typography>
-      <Grid container className="justify-center w-full  max-w-7xl">
-        {generalManagers.map((manager) => {
-          return (
-            <Grid size={{ xs: 6, sm: 4, md: 3, lg: 2 }} key={manager.id}>
-              <ManagerCard manager={manager} onClick={selectManager} />
-            </Grid>
-          );
-        })}
-      </Grid>
-      <ManagerInfo
-        manager={selectedManager}
-        open={open}
-        onClose={() => setOpen(false)}
-      />
-    </Box>
+        {/* Steering Committee */}
+        <div className="mb-14">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="h-px flex-1 bg-white/10" />
+            <span className="text-white/50 text-sm font-semibold uppercase tracking-widest px-3">
+              Steering Committee
+            </span>
+            <div className="h-px flex-1 bg-white/10" />
+          </div>
+          <Grid container className="justify-center">
+            {steeringCommittee.map((manager) => (
+              <Grid size={{ xs: 6, sm: 4, md: 3, lg: 2 }} key={manager.id}>
+                <ManagerCard manager={manager} onClick={selectManager} />
+              </Grid>
+            ))}
+          </Grid>
+        </div>
+
+        {/* General Managers */}
+        <div>
+          <div className="flex items-center gap-3 mb-6">
+            <div className="h-px flex-1 bg-white/10" />
+            <span className="text-white/50 text-sm font-semibold uppercase tracking-widest px-3">
+              General Managers
+            </span>
+            <div className="h-px flex-1 bg-white/10" />
+          </div>
+          <Grid container className="justify-center">
+            {generalManagers.map((manager) => (
+              <Grid size={{ xs: 6, sm: 4, md: 3, lg: 2 }} key={manager.id}>
+                <ManagerCard manager={manager} onClick={selectManager} />
+              </Grid>
+            ))}
+          </Grid>
+        </div>
+      </div>
+
+      <ManagerInfo manager={selectedManager} open={open} onClose={() => setOpen(false)} />
+    </section>
   );
 }

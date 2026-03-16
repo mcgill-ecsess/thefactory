@@ -1,7 +1,7 @@
 "use client";
 
 import { useContext, useEffect, useState } from "react";
-import { Menu, X, Copy } from "lucide-react"; // Import the Copy icon
+import { Menu, X, Copy, Check } from "lucide-react";
 import { LoginContext } from "../Contexts/LoginContext";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -12,137 +12,123 @@ type NavBarProps = {
 };
 
 function NavBar(props: NavBarProps) {
-  const loginContext = useContext(LoginContext); // Access LoginContext
+  const loginContext = useContext(LoginContext);
   const [status, setStatus] = useState<boolean>();
   const [contactPopupOpen, setContactPopupOpen] = useState(false);
   const [copied, setCopied] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  // Check token validity and update context on component mount
   useEffect(() => {
-    const apiKey = process.env.NEXT_PUBLIC_API_KEY || "";
-
-    fetch("https://factorystrapi.mcgilleus.ca/api/open-status", {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${apiKey}`,
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        console.log(data.data.attributes.status);
-        setStatus(data.data.attributes.status);
-      })
-      .catch((error) => console.log(error));
+    const handleScroll = () => setScrolled(window.scrollY > 8);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const openContactPopup = () => {
-    setContactPopupOpen(true);
-  };
-
-  const closeContactPopup = () => {
-    setContactPopupOpen(false);
-    setCopied(false); // Reset copied state when closing popup
-  };
+  useEffect(() => {
+    const apiKey = process.env.NEXT_PUBLIC_API_KEY || "";
+    fetch("https://factorystrapi.mcgilleus.ca/api/open-status", {
+      method: "GET",
+      headers: { Authorization: `Bearer ${apiKey}` },
+    })
+      .then((r) => r.json())
+      .then((data) => setStatus(data.data.attributes.status))
+      .catch(console.error);
+  }, []);
 
   const copyToClipboard = async () => {
     try {
       await navigator.clipboard.writeText("thefactory@mcgilleus.ca");
       setCopied(true);
-      setTimeout(() => setCopied(false), 2000); // Reset after 2 seconds
+      setTimeout(() => setCopied(false), 2000);
     } catch (err) {
-      console.error('Failed to copy text: ', err);
+      console.error(err);
     }
   };
 
-  console.log(status);
+  const navLinkClass = (path: string) =>
+    mounted && pathname === path
+      ? "text-factory-green font-semibold"
+      : "text-white/80 hover:text-white transition-colors duration-200";
 
   return (
     <>
       {/* Mobile Navbar */}
-      <nav className="lg:hidden bg-factory-blue h-20 flex justify-between py-3 pl-9 sticky top-0 left-0 right-0 z-50">
+      <nav
+        className={`lg:hidden h-16 flex justify-between items-center px-5 sticky top-0 left-0 right-0 z-50 transition-all duration-300 ${
+          scrolled
+            ? "bg-factory-blue/95 backdrop-blur-md shadow-lg shadow-black/20"
+            : "bg-factory-blue"
+        }`}
+      >
         <img
           src="/logo/factory_logo_inline_white.png"
           alt="Factory Logo"
-          className="h-12"
+          className="h-9"
         />
-        <div className="lg:hidden cursor-pointer p-2 mr-4">
-          <button
-            onClick={props.toggleDrawer}
-            className="transition-transform duration-1000 ease-in-out"
-          >
-            {props.isDrawerOpen ? (
-              <X size={44} color="#ffffff" />
-            ) : (
-              <Menu size={44} color="#ffffff" />
-            )}
-          </button>
-        </div>
+        <button
+          onClick={props.toggleDrawer}
+          className="p-2 rounded-lg hover:bg-white/10 transition-colors duration-200"
+          aria-label="Toggle menu"
+        >
+          {props.isDrawerOpen ? (
+            <X size={24} color="#ffffff" />
+          ) : (
+            <Menu size={24} color="#ffffff" />
+          )}
+        </button>
       </nav>
 
-      {/* Desktop Navbar - no sticky so it scrolls away like frontend */}
-      <nav className="h-24 bg-factory-blue hidden lg:flex justify-between px-12 font-medium top-0 left-0 right-0 z-50">
-        <div className="flex gap-3 text-white items-center h-full">
-          <img src="/factory_logo_512x512.png" alt="" className="w-14 mb-4" />
-          <h1 className="text-white text-4xl font-medium">The Factory</h1>
-          <div className="flex gap-3 font-medium mt-1 ml-3">
-            <Link
-              href="/"
-              className={
-                mounted && pathname === "/"
-                  ? "text-[#57bf94] underline decoration-[#57bf94] decoration-[3px] underline-offset-4"
-                  : "text-white hover:text-[#57bf94] hover:underline hover:decoration-[#57bf94] hover:decoration-[3px] hover:underline-offset-4"
-              }
-            >
-              Home
-            </Link>
+      {/* Desktop Navbar */}
+      <nav
+        className={`h-[72px] hidden lg:flex justify-between items-center px-10 sticky top-0 left-0 right-0 z-50 transition-all duration-300 ${
+          scrolled
+            ? "bg-factory-blue/95 backdrop-blur-md shadow-lg shadow-black/20"
+            : "bg-factory-blue"
+        }`}
+      >
+        {/* Left: Logo + Links */}
+        <div className="flex items-center gap-8">
+          <Link href="/" className="flex items-center gap-2.5 shrink-0">
+            <img src="/factory_logo_512x512.png" alt="" className="w-9 h-9" />
+            <span className="text-white text-xl font-semibold tracking-tight">
+              The Factory
+            </span>
+          </Link>
 
-            <Link
-              href="/office-hours"
-              className={
-                mounted && pathname === "/office-hours"
-                  ? "text-[#57bf94] underline decoration-[#57bf94] decoration-[3px] underline-offset-4"
-                  : "text-white hover:text-[#57bf94] hover:underline hover:decoration-[#57bf94] hover:decoration-[3px] hover:underline-offset-4"
-              }
-            >
-              Office Hours
-            </Link>
+          <div className="flex items-center gap-1">
+            {[
+              { href: "/", label: "Home" },
+              { href: "/office-hours", label: "Office Hours" },
+              { href: "/workshops", label: "Workshops" },
+              { href: "/our-lab", label: "Our Lab" },
+            ].map(({ href, label }) => (
+              <Link
+                key={href}
+                href={href}
+                className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 ${navLinkClass(href)} hover:bg-white/10`}
+              >
+                {label}
+              </Link>
+            ))}
 
-            <Link
-              href="/workshops"
-              className={
-                mounted && pathname === "/workshops"
-                  ? "text-[#57bf94] underline decoration-[#57bf94] decoration-[3px] underline-offset-4"
-                  : "text-white hover:text-[#57bf94] hover:underline hover:decoration-[#57bf94] hover:decoration-[3px] hover:underline-offset-4"
-              }
-            >
-              Workshops
-            </Link>
-
-            <Link
-              href="/our-lab"
-              className={
-                mounted && pathname === "/our-lab"
-                  ? "text-[#57bf94] underline decoration-[#57bf94] decoration-[3px] underline-offset-4"
-                  : "text-white hover:text-[#57bf94] hover:underline hover:decoration-[#57bf94] hover:decoration-[3px] hover:underline-offset-4"
-              }
-            >
-              Our Lab
-            </Link>
-
-            {/* Only show Members and Inventory links if logged in */}
             {loginContext?.isLoggedIn && (
               <>
-                <Link href="/members" className="nav-link">
+                <Link
+                  href="/members"
+                  className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 ${navLinkClass("/members")} hover:bg-white/10`}
+                >
                   Members
                 </Link>
-                <Link href="/inventory" className="nav-link">
+                <Link
+                  href="/inventory"
+                  className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 ${navLinkClass("/inventory")} hover:bg-white/10`}
+                >
                   Inventory
                 </Link>
               </>
@@ -150,62 +136,72 @@ function NavBar(props: NavBarProps) {
           </div>
         </div>
 
-        <div className="gap-5 flex items-center">
-          <div className="flex items-center gap-2 text-white  decoration-[#57bf94]">
-            <button
-              onClick={openContactPopup}
-              className="bg-factory-green py-2 px-7 rounded-xl text-white flex gap-2 hover:bg-factory-dark-green"
-            >
-              Contact Us
-            </button>
-          </div>
+        {/* Right: Status + Contact */}
+        <div className="flex items-center gap-3">
+          {mounted && status !== undefined && (
+            <div className="flex items-center gap-1.5 text-sm">
+              <span
+                className={`w-2 h-2 rounded-full ${status ? "bg-factory-green animate-pulse" : "bg-red-400"}`}
+              />
+              <span className="text-white/60 text-xs">
+                {status ? "Open" : "Closed"}
+              </span>
+            </div>
+          )}
+          <button
+            onClick={() => setContactPopupOpen(true)}
+            className="bg-factory-green hover:bg-factory-dark-green text-white text-sm font-semibold px-5 py-2 rounded-xl transition-all duration-200 hover:shadow-lg hover:shadow-factory-green/25 active:scale-95"
+          >
+            Contact Us
+          </button>
         </div>
       </nav>
 
-      {/* Contact Us Popup */}
+      {/* Contact Popup */}
       {contactPopupOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 w-96 mx-4">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-xl font-semibold">Contact Us</h3>
+        <div
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-[100] p-4"
+          onClick={() => setContactPopupOpen(false)}
+        >
+          <div
+            className="bg-white rounded-2xl shadow-2xl w-full max-w-sm p-6 animate-in"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex justify-between items-center mb-5">
+              <h3 className="text-lg font-bold text-gray-900">Contact Us</h3>
               <button
-                onClick={closeContactPopup}
-                className="text-gray-500 hover:text-gray-700"
+                onClick={() => setContactPopupOpen(false)}
+                className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 text-gray-400 hover:text-gray-600 transition-colors"
               >
-                <X size={24} />
+                <X size={18} />
               </button>
             </div>
-            <p className="text-gray-700 mb-4">
-              Feel free to reach out to us at:
+            <p className="text-sm text-gray-500 mb-3">
+              Reach out to us at:
             </p>
-            <div className="bg-gray-100 p-3 rounded-md text-center relative"> {/* Added margin-bottom to reserve space */}
-              <p className="text-lg font-mono text-factory-green">
+            <div className="bg-gray-50 border border-gray-200 rounded-xl p-4 flex items-center justify-between">
+              <span className="font-mono text-factory-green text-sm font-semibold">
                 thefactory@mcgilleus.ca
-              </p>
+              </span>
               <button
                 onClick={copyToClipboard}
-                className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-factory-green transition-colors"
+                className="ml-3 p-1.5 rounded-lg hover:bg-gray-200 text-gray-400 hover:text-factory-green transition-all"
                 title="Copy to clipboard"
               >
-                <Copy size={18} />
+                {copied ? <Check size={16} className="text-factory-green" /> : <Copy size={16} />}
               </button>
             </div>
-            {/* Fixed height container for feedback message */}
-            <div className="h-3 mb-2 mt-3"> {/* Fixed height container */}
-              {copied && (
-                <p className="text-factory-green text-sm text-center">
-                  Email copied to clipboard!
-                </p>
-              )}
-            </div>
-            <div className="flex justify-end mt-4">
-              <button
-                onClick={closeContactPopup}
-                className="bg-factory-green text-white py-2 px-4 rounded-md hover:bg-factory-dark-green"
-              >
-                Close
-              </button>
-            </div>
+            {copied && (
+              <p className="text-factory-green text-xs text-center mt-2">
+                Copied to clipboard!
+              </p>
+            )}
+            <button
+              onClick={() => setContactPopupOpen(false)}
+              className="w-full mt-5 bg-factory-green hover:bg-factory-dark-green text-white font-semibold py-2.5 rounded-xl transition-all duration-200 active:scale-95"
+            >
+              Close
+            </button>
           </div>
         </div>
       )}

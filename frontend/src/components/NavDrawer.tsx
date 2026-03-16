@@ -8,72 +8,80 @@ type NavDrawerProps = {
   isDrawerOpen: boolean;
 };
 
+const navLinks = [
+  { href: "/", label: "Home" },
+  { href: "/office-hours", label: "Office Hours" },
+  { href: "/workshops", label: "Workshops" },
+  { href: "/our-lab", label: "Our Lab" },
+];
+
 const NavDrawer = (props: NavDrawerProps) => {
   const pathname = usePathname();
 
   return (
-    <div
-      className={`flex flex-col pb-8 text-white items-center justify-between font-museo-moderno text-[25px] text-cream font-black fixed top-0 left-0 w-96 h-full bg-factory-blue transform ${
-        props.isDrawerOpen ? "translate-x-0" : "-translate-x-full"
-      } transition-transform duration-300 ease-in-out z-50`}
-    >
-      <div className="flex flex-col gap-7 items-center">
-        <img
-          src="/logo/factory_logo_inline_white.png"
-          alt=""
-          className="h-12 mt-10"
+    <>
+      {/* Backdrop */}
+      {props.isDrawerOpen && (
+        <div
+          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 lg:hidden"
+          onClick={props.toggleDrawer}
         />
-        <Link
-          href="/"
-          style={{
-            color: pathname === "/" ? "#57bf94" : "white",
-          }}
-          onClick={props.toggleDrawer}
-        >
-          Home
-        </Link>
-        <Link
-          href="/office-hours"
-          style={{
-            color: pathname === "/office-hours" ? "#57bf94" : "white",
-          }}
-          onClick={props.toggleDrawer}
-        >
-          Office Hours
-        </Link>
-        <Link
-          href="/workshops"
-          style={{
-            color: pathname === "/workshops" ? "#57bf94" : "white",
-          }}
-          onClick={props.toggleDrawer}
-        >
-          Workshops
-        </Link>
-        <Link
-          href="/our-lab"
-          style={{
-            color: pathname === "/our-lab" ? "#57bf94" : "white",
-          }}
-          onClick={props.toggleDrawer}
-        >
-          Our Lab
-        </Link>
-      </div>
+      )}
 
-      <div className="flex flex-col items-center gap-3 w-full px-6">
-        <a
-          href="mailto:thefactory@mcgilleus.ca"
-          className="bg-factory-green hover:bg-factory-dark-green p-4 rounded-xl text-white text-center w-full transition-colors"
-          onClick={props.toggleDrawer}
-        >
-          <p className="text-lg font-medium">Contact Us</p>
-          <p className="text-sm font-mono break-all mt-1">
-            thefactory@mcgilleus.ca
-          </p>
-        </a>
+      {/* Drawer */}
+      <div
+        className={`fixed top-0 left-0 h-full w-72 bg-factory-blue z-50 flex flex-col transform transition-transform duration-300 ease-in-out lg:hidden ${
+          props.isDrawerOpen ? "translate-x-0" : "-translate-x-full"
+        }`}
+      >
+        {/* Header */}
+        <div className="flex items-center justify-center pt-12 pb-8 px-6 border-b border-white/10">
+          <img
+            src="/logo/factory_logo_inline_white.png"
+            alt="Factory Logo"
+            className="h-10"
+          />
+        </div>
+
+        {/* Links */}
+        <nav className="flex flex-col gap-1 px-3 pt-4 flex-1">
+          {navLinks.map(({ href, label }) => {
+            const isActive = pathname === href;
+            return (
+              <Link
+                key={href}
+                href={href}
+                onClick={props.toggleDrawer}
+                className={`flex items-center gap-3 px-4 py-3 rounded-xl text-base font-medium transition-all duration-200 ${
+                  isActive
+                    ? "bg-factory-green/20 text-factory-green"
+                    : "text-white/75 hover:bg-white/10 hover:text-white"
+                }`}
+              >
+                {isActive && (
+                  <span className="w-1.5 h-1.5 rounded-full bg-factory-green shrink-0" />
+                )}
+                {label}
+              </Link>
+            );
+          })}
+        </nav>
+
+        {/* Contact footer */}
+        <div className="p-4 border-t border-white/10">
+          <a
+            href="mailto:thefactory@mcgilleus.ca"
+            onClick={props.toggleDrawer}
+            className="flex flex-col items-center gap-1 bg-factory-green hover:bg-factory-dark-green text-white rounded-xl p-4 text-center transition-all duration-200 active:scale-95"
+          >
+            <span className="font-semibold text-sm">Contact Us</span>
+            <span className="text-xs font-mono opacity-80">
+              thefactory@mcgilleus.ca
+            </span>
+          </a>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

@@ -15,12 +15,9 @@ export default function Workshops() {
   const pastWorkshops: WorkshopDT[] = [];
 
   workshops.forEach((workshop) => {
-    // Combine the workshop date and start time into a Date object
     const workshopStartDateTime = new Date(
       `${workshop.attributes.Date}T${workshop.attributes.StartTime}`
     );
-
-    // Compare workshop start date and time with the current date and time
     if (workshopStartDateTime > new Date()) {
       upcomingWorkshops.push(workshop);
     } else {
@@ -29,11 +26,20 @@ export default function Workshops() {
   });
 
   return (
-    <div className="flex flex-col items-center mt-12 pb-20">
-      <UpcomingWorkshops upcomingWorkshops={upcomingWorkshops} />
-      <br />
-      <br />
-      <PastWorkshops pastWorkshops={pastWorkshops} />
+    <div className="min-h-screen bg-white">
+      {/* Page header */}
+      <div className="bg-factory-black py-14 px-6 text-center">
+        <h1 className="text-4xl md:text-5xl font-bold text-white mb-3">Workshops</h1>
+        <div className="section-divider" />
+        <p className="text-white/50 text-base max-w-md mx-auto mt-2">
+          Hands-on sessions to help you learn and build.
+        </p>
+      </div>
+
+      <div className="max-w-4xl mx-auto px-6 py-14 flex flex-col gap-12">
+        <UpcomingWorkshops upcomingWorkshops={upcomingWorkshops} />
+        <PastWorkshops pastWorkshops={pastWorkshops} />
+      </div>
     </div>
   );
 }
