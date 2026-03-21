@@ -13,6 +13,7 @@ import {
   UsersRound,
   Warehouse,
   ChevronRight,
+  Bolt,
 } from "lucide-react";
 import Link from "next/link";
 import Faq from "react-faq-component";
@@ -71,44 +72,55 @@ export default function Home() {
   return (
     <>
       {/* ── Hero ── */}
-      <section className="relative min-h-[calc(100vh-72px)] bg-factory-black flex flex-col items-center justify-center overflow-hidden">
-        {/* Subtle gradient glow */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_60%,rgba(87,191,148,0),transparent)]" />
-        <div className="relative z-10 flex flex-col items-center gap-8 px-6 text-center">
-          <img
-            src="/FactoryBoxWithText.png"
-            alt="The Factory"
-            className="w-xs max-w-screen drop-shadow-2xl"
-          />
-          <p className="text-white/60 text-base md:text-lg max-w-md leading-relaxed">
-            A hardware design lab run by students, for students at McGill University.
-          </p>
-          <div className="flex flex-wrap gap-3 justify-center">
-            <a
-              href="https://factorydb.notkaramel.dev/dashboard/#/nc/form/b1f34cd8-bde2-490c-abd9-dadbada72737"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-factory-green hover:bg-factory-dark-green text-white font-semibold px-7 py-3 rounded-xl transition-all duration-200 hover:shadow-lg hover:shadow-factory-green/30 active:scale-95"
-            >
-              Become a Member
-            </a>
-            <Link
-              href="/our-lab"
-              className="border border-white/20 hover:border-white/40 text-white/80 hover:text-white font-medium px-7 py-3 rounded-xl transition-all duration-200 hover:bg-white/5 active:scale-95"
-            >
-              Explore the Lab
-            </Link>
+      <section className="bg-surface relative min-h-screen flex items-start px-8 max-w-7xl mx-auto pt-24 pb-32">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
+            <div className="lg:col-span-7 z-10">
+              <span className="inline-block mb-8 font-label text-primary font-semibold tracking-[0.2em] uppercase text-sm">McGill Engineering Makerspace</span>
+              <h1 className="font-headline text-6xl md:text-8xl font-bold leading-[0.9] tracking-tighter mb-12 text-on-surface">
+                The Factory - McGill&apos;s <span className="text-primary-container">ECSE</span> Makerspace.
+              </h1>
+              <p className="font-body text-xl text-secondary max-w-xl mb-16 leading-relaxed">
+                Where ideas come to life. Access industrial-grade tools and a community of innovators in the heart of McGill University.
+              </p>
+              <div className="flex flex-wrap gap-6">
+                <button className="cursor-pointer bg-gradient-to-br from-primary to-primary-container text-on-primary px-10 py-5 rounded-lg font-headline text-lg font-bold tracking-wider uppercase shadow-xl shadow-primary/10 hover:shadow-primary/20 transition-all">
+                  Join the Network
+                </button>
+                <button className="cursor-pointer group flex items-center gap-4 px-10 py-5 font-headline text-lg font-bold tracking-wider uppercase text-on-surface hover:text-primary transition-colors">
+                  View Equipment
+                  <span className="h-0.5 w-8 bg-primary-container transition-all group-hover:w-12"></span>
+                </button>
+              </div>
+            </div>
+            <div className="lg:col-span-5 relative">
+              <div className="absolute -top-20 w-[120%] h-[120%] circuit-pattern pointer-events-none"></div>
+                <img
+                  alt="The Factory Logo"
+                  className="w-full object-contain rounded-3xl scale-110 -translate-x-8"
+                  src="/FactoryFriendlyRobot.JPG"
+                />
+              
+
+              <div className="absolute -bottom-25 -left-25 glass-card p-8 rounded-xl border border-white/20 shadow-xl hidden md:block">
+                <div className="flex items-center gap-4">
+                  <Bolt className="text-primary w-8 h-8" />
+                  <div>
+                    <p className="font-headline font-bold text-2xl">10:00-17:00</p>
+                    <p className="font-label text-xs uppercase tracking-widest text-secondary">Member Access</p>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
       {/* ── What is the Factory + Map ── */}
-      <section className="bg-factory-black text-white py-20 px-6">
+      <section className="bg-surface-low  py-20 px-6">
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold">What is the Factory?</h2>
             <div className="section-divider" />
-            <p className="text-white/65 text-base md:text-lg max-w-2xl mx-auto leading-relaxed">
+            <p className=" text-base md:text-lg max-w-2xl mx-auto leading-relaxed">
               The Factory is a hardware design lab run by students, for students in
               Electrical, Computer, and Software Engineering at McGill University. Located
               in room 0080 of the Trottier Building, it&apos;s a dedicated space for developing
@@ -137,7 +149,7 @@ export default function Home() {
       </section>
 
       {/* ── Video + FAQ ── */}
-      <section className="bg-factory-black text-white py-16 px-6 border-t border-white/5">
+      <section className="bg-surface-low text-white py-16 px-6 border-t border-white/5">
         <div className="max-w-5xl mx-auto">
           <div className="flex flex-col lg:flex-row gap-10 items-start">
             {/* Video */}

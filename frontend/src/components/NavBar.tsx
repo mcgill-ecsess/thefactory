@@ -13,7 +13,12 @@ type NavBarProps = {
 
 function NavBar(props: NavBarProps) {
   const loginContext = useContext(LoginContext);
-  const [status, setStatus] = useState<boolean>();
+  const [status] = useState<boolean>(() => {
+    const now = new Date();
+    const day = now.getDay();
+    const hour = now.getHours();
+    return day >= 1 && day <= 5 && hour >= 10 && hour < 17;
+  });
   const [contactPopupOpen, setContactPopupOpen] = useState(false);
   const [copied, setCopied] = useState(false);
   const [mounted, setMounted] = useState(false);
@@ -21,24 +26,11 @@ function NavBar(props: NavBarProps) {
   const pathname = usePathname();
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
-  }, []);
-
-  useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 8);
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  useEffect(() => {
-    const apiKey = process.env.NEXT_PUBLIC_API_KEY || "";
-    fetch("https://factorystrapi.mcgilleus.ca/api/open-status", {
-      method: "GET",
-      headers: { Authorization: `Bearer ${apiKey}` },
-    })
-      .then((r) => r.json())
-      .then((data) => setStatus(data.data.attributes.status))
-      .catch(console.error);
   }, []);
 
   const copyToClipboard = async () => {
@@ -51,111 +43,103 @@ function NavBar(props: NavBarProps) {
     }
   };
 
-  const navLinkClass = (path: string) =>
-    mounted && pathname === path
-      ? "text-factory-green font-semibold"
-      : "text-white/80 hover:text-white transition-colors duration-200";
-
   return (
     <>
       {/* Mobile Navbar */}
       <nav
         className={`lg:hidden h-16 flex justify-between items-center px-5 sticky top-0 left-0 right-0 z-50 transition-all duration-300 ${
           scrolled
-            ? "bg-factory-blue/95 backdrop-blur-md shadow-lg shadow-black/20"
-            : "bg-factory-blue"
+            ? "bg-white/95 backdrop-blur-xl shadow-sm border-b border-gray-200/60"
+            : "bg-white/80 backdrop-blur-xl border-b border-gray-200/30"
         }`}
       >
         <img
-          src="/logo/factory_logo_inline_white.png"
+          src="/logo/factory_logo_inline.png"
           alt="Factory Logo"
-          className="h-9"
+          className="h-8"
         />
         <button
           onClick={props.toggleDrawer}
-          className="p-2 rounded-lg hover:bg-white/10 transition-colors duration-200"
+          className="p-2 rounded-lg hover:bg-gray-100 transition-colors duration-200"
           aria-label="Toggle menu"
         >
           {props.isDrawerOpen ? (
-            <X size={24} color="#ffffff" />
+            <X size={24} color="#374151" />
           ) : (
-            <Menu size={24} color="#ffffff" />
+            <Menu size={24} color="#374151" />
           )}
         </button>
       </nav>
 
       {/* Desktop Navbar */}
-      <nav
-        className={`h-[72px] hidden lg:flex justify-between items-center px-10 sticky top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      <header
+        className={`hidden lg:block sticky top-0 w-full z-50 transition-all duration-300 ${
           scrolled
-            ? "bg-factory-blue/95 backdrop-blur-md shadow-lg shadow-black/20"
-            : "bg-factory-blue"
+            ? "bg-white/95 backdrop-blur-xl shadow-sm border-b border-gray-200/60"
+            : "bg-white/80 backdrop-blur-xl border-b border-gray-200/30"
         }`}
       >
-        {/* Left: Logo + Links */}
-        <div className="flex items-center gap-8">
-          <Link href="/" className="flex items-center gap-2.5 shrink-0">
-            <img src="/factory_logo_512x512.png" alt="" className="w-9 h-9" />
-            <span className="text-white text-xl font-semibold tracking-tight">
-              The Factory
-            </span>
-          </Link>
+        <div className="flex justify-between items-center px-8 py-4 max-w-7xl mx-auto">
+          {/* Left: Logo + Nav links */}
+          <div className="flex items-center gap-8">
+            <Link href="/" className="flex items-center gap-3 shrink-0">
+              <img
+                src="/logo/factory_logo_inline.png"
+                alt="The Factory Logo"
+                className="h-9 w-auto -translate-y-1.5"
+              />
+            </Link>
 
-          <div className="flex items-center gap-1">
-            {[
-              { href: "/", label: "Home" },
-              { href: "/office-hours", label: "Office Hours" },
-              { href: "/workshops", label: "Workshops" },
-              { href: "/our-lab", label: "Our Lab" },
-            ].map(({ href, label }) => (
-              <Link
-                key={href}
-                href={href}
-                className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 ${navLinkClass(href)} hover:bg-white/10`}
-              >
-                {label}
-              </Link>
-            ))}
+            <nav className="flex gap-1 items-center">
+              {[
+                { href: "/", label: "Home" },
+                { href: "/office-hours", label: "Office Hours" },
+                { href: "/workshops", label: "Workshops" },
+                { href: "/our-lab", label: "Our Lab" },
+              ].map(({ href, label }) => (
+                <Link
+                  key={href}
+                  href={href}
+                  className={`px-3 py-1.5 rounded-lg text-sm font-medium tracking-wide transition-all duration-200 ${
+                    mounted && pathname === href
+                      ? "text-factory-green font-semibold"
+                      : "text-gray-500 hover:text-gray-900 hover:bg-gray-100"
+                  }`}
+                >
+                  {label}
+                </Link>
+              ))}
 
-            {loginContext?.isLoggedIn && (
-              <>
-                <Link
-                  href="/members"
-                  className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 ${navLinkClass("/members")} hover:bg-white/10`}
-                >
-                  Members
-                </Link>
-                <Link
-                  href="/inventory"
-                  className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 ${navLinkClass("/inventory")} hover:bg-white/10`}
-                >
-                  Inventory
-                </Link>
-              </>
+
+              
+              
+            </nav>
+          </div>
+
+          {/* Right: Status + Contact */}
+          <div className="flex items-center gap-4">
+            {mounted && (
+              <div className="flex items-center gap-1.5">
+                <span
+                  className={`w-2 h-2 rounded-full ${status ? "bg-factory-green animate-pulse" : "bg-red-400"}`}
+                />
+                <span className="text-gray-500 text-xs font-medium">
+                  {status ? "Open" : "Closed"}
+                </span>
+              </div>
             )}
+            <button
+              onClick={() => setContactPopupOpen(true)}
+              className="cursor-pointer text-sm font-medium tracking-wide text-gray-500 px-3 py-1.5 rounded-lg hover:bg-gray-100 hover:text-gray-900 transition-colors duration-300"
+            >
+              Contact Us
+            </button>
+            <button className="cursor-pointer bg-gradient-to-br from-primary to-primary-container hover:bg-factory-dark-green text-white px-6 py-2.5 rounded-lg text-sm font-semibold tracking-wide transition-all duration-200 hover:shadow-lg hover:shadow-factory-green/25 active:scale-95">
+              Become a Member
+            </button>
           </div>
         </div>
-
-        {/* Right: Status + Contact */}
-        <div className="flex items-center gap-3">
-          {mounted && status !== undefined && (
-            <div className="flex items-center gap-1.5 text-sm">
-              <span
-                className={`w-2 h-2 rounded-full ${status ? "bg-factory-green animate-pulse" : "bg-red-400"}`}
-              />
-              <span className="text-white/60 text-xs">
-                {status ? "Open" : "Closed"}
-              </span>
-            </div>
-          )}
-          <button
-            onClick={() => setContactPopupOpen(true)}
-            className="bg-factory-green hover:bg-factory-dark-green text-white text-sm font-semibold px-5 py-2 rounded-xl transition-all duration-200 hover:shadow-lg hover:shadow-factory-green/25 active:scale-95"
-          >
-            Contact Us
-          </button>
-        </div>
-      </nav>
+      </header>
 
       {/* Contact Popup */}
       {contactPopupOpen && (
