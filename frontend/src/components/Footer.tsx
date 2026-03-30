@@ -27,15 +27,15 @@ const socialLinks = [
 
 export default function Footer() {
   return (
-    <footer className="bg-factory-blue border-t border-white/10">
+    <footer className="bg-on-surface">
       {/* Mobile */}
-      <div className="lg:hidden flex flex-col items-center gap-6 py-8 px-6">
+      <div className="lg:hidden flex flex-col items-center gap-6 py-10 px-6">
         <img
           src="/logo/factory_logo_inline_white.png"
           alt="The Factory"
-          className="h-8 object-contain"
+          className="h-8 object-contain opacity-90"
         />
-        <div className="flex gap-5">
+        <div className="flex gap-4">
           {socialLinks.map(({ href, icon: Icon, label }) => (
             <a
               key={label}
@@ -43,19 +43,20 @@ export default function Footer() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label={label}
-              className="w-9 h-9 flex items-center justify-center rounded-full bg-white/10 hover:bg-factory-green text-white/70 hover:text-white transition-all duration-200"
+              className="w-10 h-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-primary-container text-white transition-all duration-200"
             >
               <Icon size={16} strokeWidth={1.5} />
             </a>
           ))}
         </div>
-        <p className="text-white/40 text-xs">© 2024 ECSESS Factory</p>
+        <p className="text-white/40 text-xs">© 2025 ECSESS Factory · McGill University</p>
       </div>
 
       {/* Desktop */}
-      <div className="hidden lg:block py-10 px-12">
-        <div className="max-w-6xl mx-auto">
-          <div className="flex items-center justify-between mb-8">
+      <div className="hidden lg:flex flex-col py-10 px-6">
+        <div className="max-w-6xl mx-auto w-full">
+          <div className="grid grid-cols-3 items-center mb-8">
+            {/* Partner logos — left */}
             <div className="flex items-center gap-10">
               <img
                 src="/mcgill-logo.png"
@@ -68,12 +69,18 @@ export default function Footer() {
                 className="h-10 object-contain opacity-80"
               />
             </div>
-            <img
-              src="/logo/factory_logo_inline_white.png"
-              alt="The Factory"
-              className="h-9 object-contain"
-            />
-            <div className="flex gap-3">
+
+            {/* Center logo — truly centered */}
+            <div className="flex justify-center">
+              <img
+                src="/logo/factory_logo_inline_white.png"
+                alt="The Factory"
+                className="h-9 object-contain opacity-90"
+              />
+            </div>
+
+            {/* Social links — right */}
+            <div className="flex gap-3 justify-end">
               {socialLinks.map(({ href, icon: Icon, label }) => (
                 <a
                   key={label}
@@ -81,16 +88,17 @@ export default function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={label}
-                  className="w-10 h-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-factory-green text-white/60 hover:text-white transition-all duration-200"
+                  className="w-10 h-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-primary-container text-white transition-all duration-200"
                 >
                   <Icon size={17} strokeWidth={1.5} />
                 </a>
               ))}
             </div>
           </div>
+
           <div className="border-t border-white/10 pt-5 flex justify-center">
             <p className="text-white/35 text-sm">
-              © 2024 ECSESS Factory · McGill University
+              © 2026 ECSESS Factory · McGill University
             </p>
           </div>
         </div>

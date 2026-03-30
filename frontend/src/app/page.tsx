@@ -22,9 +22,9 @@ import { useEffect, useState } from "react";
 
 const faqStyles = {
   bgColor: "transparent",
-  rowTitleColor: "white",
-  rowContentColor: "rgba(255,255,255,0.75)",
-  arrowColor: "#57bf94",
+  rowTitleColor: "#091d2e",
+  rowContentColor: "#4e6073",
+  arrowColor: "#006c4c",
   rowTitleTextSize: "1rem",
 };
 
@@ -72,8 +72,8 @@ export default function Home() {
   return (
     <>
       {/* ── Hero ── */}
-      <section className="bg-surface relative min-h-screen flex items-start px-8 max-w-7xl mx-auto pt-24 pb-32">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
+      <section className="bg-surface relative min-h-screen flex items-start px-8 mx-auto pt-24 pb-32">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center max-w-7xl mx-auto">
             <div className="lg:col-span-7 z-10">
               <span className="inline-block mb-8 font-label text-primary font-semibold tracking-[0.2em] uppercase text-sm">McGill Engineering Makerspace</span>
               <h1 className="font-headline text-6xl md:text-8xl font-bold leading-[0.9] tracking-tighter mb-12 text-on-surface">
@@ -115,65 +115,76 @@ export default function Home() {
         </section>
 
       {/* ── What is the Factory + Map ── */}
-      <section className="bg-surface-low  py-20 px-6">
-        <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold">What is the Factory?</h2>
-            <div className="section-divider" />
-            <p className=" text-base md:text-lg max-w-2xl mx-auto leading-relaxed">
-              The Factory is a hardware design lab run by students, for students in
-              Electrical, Computer, and Software Engineering at McGill University. Located
-              in room 0080 of the Trottier Building, it&apos;s a dedicated space for developing
-              personal projects, gaining hands-on experience, and collaborating with fellow students.
-            </p>
-          </div>
+      <section className="bg-surface-low py-24 px-6">
+        <div className="max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            {/* Text */}
+            <div>
+              <span className="inline-block mb-4 font-label text-primary font-semibold tracking-[0.2em] uppercase text-sm">About</span>
+              <h2 className="font-headline text-4xl md:text-5xl font-bold tracking-tight text-on-surface mb-5">
+                What is the Factory?
+              </h2>
+              <div className="w-12 h-1 bg-gradient-to-r from-primary to-primary-container rounded mb-6" />
+              <p className="font-body text-lg text-secondary leading-relaxed">
+                The Factory is a hardware design lab run by students, for students in
+                Electrical, Computer, and Software Engineering at McGill University. Located
+                in room 0080 of the Trottier Building, it&apos;s a dedicated space for developing
+                personal projects, gaining hands-on experience, and collaborating with fellow students.
+              </p>
+            </div>
 
-          <div className="mb-10 text-center">
-            <h3 className="text-2xl font-semibold mb-2">Where is the Factory?</h3>
-            <div className="section-divider" />
-            <p className="text-white/55 text-sm mb-6">
-              Room 0080, Trottier Building (shown in red below)
-            </p>
-            <div className="rounded-2xl overflow-hidden border border-white/10 shadow-2xl">
-              <iframe
-                src="https://maps.mcgill.ca/?lat=45.50597407531836&lng=-73.57909006262219&z=16.25&cmp=1&txt=EN&id=Trottier"
-                width="100%"
-                height="420"
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                className="block"
-              />
+            {/* Map */}
+            <div>
+              <span className="inline-block mb-4 font-label text-primary font-semibold tracking-[0.2em] uppercase text-sm">Location</span>
+              <h3 className="font-headline text-2xl font-bold text-on-surface mb-2">Room 0080, Trottier Building</h3>
+              <p className="font-body text-sm text-secondary mb-4">Shown in red on the map below</p>
+              <div className="rounded-2xl overflow-hidden border border-surface-highest shadow-lg">
+                <iframe
+                  src="https://maps.mcgill.ca/?lat=45.50597407531836&lng=-73.57909006262219&z=16.25&cmp=1&txt=EN&id=Trottier"
+                  width="100%"
+                  height="360"
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  className="block"
+                />
+              </div>
             </div>
           </div>
         </div>
       </section>
 
       {/* ── Video + FAQ ── */}
-      <section className="bg-surface-low text-white py-16 px-6 border-t border-white/5">
-        <div className="max-w-5xl mx-auto">
-          <div className="flex flex-col lg:flex-row gap-10 items-start">
+      <section className="bg-surface py-24 px-6">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-14">
+            <span className="inline-block mb-4 font-label text-primary font-semibold tracking-[0.2em] uppercase text-sm">Discover</span>
+            <h2 className="font-headline text-4xl md:text-5xl font-bold tracking-tight text-on-surface">
+              See Us In Action
+            </h2>
+            <div className="w-12 h-1 bg-gradient-to-r from-primary to-primary-container rounded mx-auto mt-4" />
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
             {/* Video */}
-            <div className="w-full lg:w-1/2">
-              <h3 className="text-xl font-semibold mb-4 text-white/90">See us in action</h3>
-              <div className="rounded-2xl overflow-hidden border border-white/10 shadow-xl aspect-video">
+            <div>
+              <div className="rounded-2xl overflow-hidden border border-surface-highest shadow-lg aspect-video">
                 <iframe
                   width="100%"
                   height="100%"
                   src="https://www.youtube.com/embed/H-EEBm-rxqw?si=X_x06NfcIzyQxJbe"
                   title="The Factory video"
-                  frameBorder="0"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                   referrerPolicy="strict-origin-when-cross-origin"
                   allowFullScreen
-                  className="block"
+                  className="block w-full h-full"
                 />
               </div>
             </div>
 
             {/* FAQ */}
-            <div className="w-full lg:w-1/2">
-              <h3 className="text-xl font-semibold mb-4 text-white/90">FAQ</h3>
-              <div className="section-divider !mx-0 !mb-5" />
+            <div>
+              <h3 className="font-headline text-2xl font-bold text-on-surface mb-2">Frequently Asked Questions</h3>
+              <div className="w-8 h-1 bg-gradient-to-r from-primary to-primary-container rounded mb-6" />
               <Faq data={faqs} styles={faqStyles} config={faqConfig} />
             </div>
           </div>
@@ -216,10 +227,10 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── Explore ── (desktop only, matches original) */}
-      <section className="hidden lg:block bg-factory-black text-white py-20 px-6">
+      {/* ── Learn More ── (desktop only, matches original) */}
+      <section className="hidden lg:block bg-surface text-white py-20 px-6">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-3">Learn More</h2>
+          <h2 className="text-3xl md:text-4xl font-bold mb-3 text-black">Learn More</h2>
           <div className="section-divider" />
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-10">
             {exploreLinks.map(({ href, icon: Icon, label, desc, isExternal }) => {
@@ -229,8 +240,8 @@ export default function Home() {
                   <div className="w-12 h-12 flex items-center justify-center rounded-xl bg-factory-green/15 text-factory-green group-hover:bg-factory-green group-hover:text-white transition-all duration-200">
                     <Icon size={22} />
                   </div>
-                  <span className="text-base font-semibold">{label}</span>
-                  <span className="text-white/45 text-xs text-center leading-relaxed">{desc}</span>
+                  <span className="text-black font-semibold">{label}</span>
+                  <span className="text-black text-xs text-center leading-relaxed">{desc}</span>
                 </>
               );
               return isExternal ? (
