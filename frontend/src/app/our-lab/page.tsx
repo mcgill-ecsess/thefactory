@@ -1,7 +1,7 @@
 "use client";
 
 import { useManagerAndLabData } from "@/Contexts/ManagerAndLabContext";
-import LabSectionComponent from "@/components/LabSectionComponent";
+import LabGallerySection from "@/components/LabGallerySection";
 import Spinner from "@/components/Spinner";
 
 export default function OurLab() {
@@ -10,43 +10,79 @@ export default function OurLab() {
   if (!labSections) return <Spinner />;
 
   return (
-    <div className="bg-factory-black min-h-screen">
-      {/* Header */}
-      <div className="relative overflow-hidden bg-factory-black pt-16 pb-12 px-6">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_60%_at_50%_50%,rgba(87,191,148,0.08),transparent)]" />
-        <div className="relative max-w-5xl mx-auto text-center">
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-3">Our Lab</h1>
-          <div className="section-divider" />
-          <p className="text-white/50 text-base max-w-xl mx-auto mt-2">
-            Explore our state-of-the-art hardware and equipment available to members.
+    <main className="bg-factory-dark-black min-h-screen">
+      {/* Hero */}
+      <section className="relative flex flex-col items-center justify-center px-6 pt-24 pb-20 overflow-hidden">
+        {/* Subtle grid backdrop */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0"
+          style={{
+            backgroundImage:
+              "linear-gradient(rgba(87,191,148,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(87,191,148,0.04) 1px,transparent 1px)",
+            backgroundSize: "48px 48px",
+          }}
+        />
+
+        {/* Glow */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] rounded-full blur-3xl opacity-20"
+          style={{ background: "radial-gradient(ellipse,#57bf94 0%,transparent 70%)" }}
+        />
+
+        <div className="relative z-10 text-center max-w-3xl mx-auto">
+          <span className="inline-block text-factory-green text-xs font-semibold uppercase tracking-[0.22em] mb-4 border border-factory-green/30 rounded-full px-4 py-1.5">
+            Equipment &amp; Workspace
+          </span>
+          <h1 className="text-5xl md:text-7xl font-bold text-white leading-[1.05] tracking-tight text-balance">
+            Our Lab
+          </h1>
+          <p className="mt-5 text-white/50 text-lg leading-relaxed max-w-lg mx-auto text-pretty">
+            State-of-the-art hardware and equipment available to every Factory member.
           </p>
         </div>
-      </div>
+      </section>
 
-      {/* Hero Images */}
-      <div className="px-6 pb-12">
-        <div className="max-w-5xl mx-auto flex flex-col lg:flex-row gap-4 justify-center">
-          <img
-            src="/FactoryFriendlyRobot.JPG"
-            alt="Factory Robot"
-            className="h-[420px] object-cover object-bottom rounded-2xl w-full lg:w-[48%] shadow-2xl"
-          />
-          <img
-            src="/robotArm.JPG"
-            alt="Robot Arm"
-            className="h-[420px] object-cover object-bottom rounded-2xl w-full lg:w-[48%] shadow-2xl"
-          />
+      {/* Hero photo strip */}
+      <section className="px-6 pb-16">
+        <div className="max-w-6xl mx-auto grid grid-cols-2 lg:grid-cols-4 gap-3">
+          {[
+            { src: "/lab/IMG_0708.jpg", alt: "Lab overview", span: "col-span-2 row-span-2" },
+            { src: "/lab/IMG_0709.jpg", alt: "Equipment detail" },
+            { src: "/lab/IMG_0713.jpg", alt: "Workstation" },
+            { src: "/lab/IMG_0714.jpg", alt: "Lab tools", span: "col-span-2" },
+          ].map(({ src, alt, span = "" }) => (
+            <div
+              key={src}
+              className={`${span} overflow-hidden rounded-2xl bg-white/5`}
+            >
+              <img
+                src={src}
+                alt={alt}
+                className="w-full h-full min-h-[180px] object-cover transition-transform duration-700 hover:scale-105"
+              />
+            </div>
+          ))}
         </div>
+      </section>
+
+      {/* Divider */}
+      <div className="max-w-6xl mx-auto px-6">
+        <div className="h-px bg-white/10" />
       </div>
 
-      {/* Lab Sections */}
-      {labSections.map((labSection) => (
-        <LabSectionComponent
-          key={labSection.id}
-          SectionTitle={labSection.attributes.SectionTitle}
-          LabSectionRows={labSection.attributes.LabSectionRows}
-        />
-      ))}
-    </div>
+      {/* Equipment gallery sections */}
+      <div className="py-8">
+        {labSections.map((labSection, idx) => (
+          <LabGallerySection
+            key={labSection.id}
+            index={idx}
+            SectionTitle={labSection.attributes.SectionTitle}
+            LabSectionRows={labSection.attributes.LabSectionRows}
+          />
+        ))}
+      </div>
+    </main>
   );
 }
