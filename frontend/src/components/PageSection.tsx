@@ -2,7 +2,6 @@
 
 import React from "react";
 import Box from "@mui/material/Box";
-import { Divider, Typography } from "@mui/material";
 import { ThemeProvider, useTheme } from "@mui/material/styles";
 import theme from "@/theme";
 
@@ -28,44 +27,40 @@ function PageSectionInner(props: {
   className?: string;
 }) {
   const theme = useTheme();
-  const color =
+  const isLight = props.color !== "white";
+  const titleColor =
     props.color === "white"
       ? theme.palette.common.white
       : props.color === "black"
       ? "#000000"
       : theme.palette.common.black;
+
   return (
     <Box
       className={
-        "px-8 md:w-8/12 max-w-7xl flex flex-col justify-center" + props.className
+        "px-8 md:w-8/12 max-w-7xl flex flex-col justify-center" +
+        (props.className ?? "")
       }
       sx={props.sx}
     >
-      <Typography
-        className="text-center"
-        sx={{
-          fontSize: {
-            md: "4rem", // Size for medium screens and above
-            sm: "3.5rem", // Size for small screens
-            xs: "2.5rem", // Size for extra-small screens
-          },
-        }}
+      {/* Title */}
+      <h2
+        style={{ color: titleColor }}
+        className="text-center text-4xl md:text-5xl font-bold tracking-tight"
       >
         {props.title}
-      </Typography>
+      </h2>
 
-      <Divider
-        aria-hidden="true"
-        sx={{
-          opacity: 1,
-          borderColor: color,
-          borderWidth: 2,
-          width: "10%",
-          alignSelf: "center",
-          marginTop: "0.3rem",
-          marginBottom: "1rem",
+      {/* Accent divider */}
+      <div
+        style={{
+          background: isLight
+            ? "linear-gradient(90deg, #57bf94, #4ca981)"
+            : "linear-gradient(90deg, #ffffff, rgba(255,255,255,0.5))",
         }}
+        className="w-12 h-[3px] rounded-full mx-auto mt-3 mb-6"
       />
+
       {props.children}
     </Box>
   );

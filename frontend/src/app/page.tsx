@@ -12,443 +12,247 @@ import {
   School,
   UsersRound,
   Warehouse,
+  ChevronRight,
+  Bolt,
 } from "lucide-react";
 import Link from "next/link";
-import { Divider } from "@mui/material";
 import Faq from "react-faq-component";
 import { FAQDT } from "@/types/FAQDT";
 import { useEffect, useState } from "react";
 
-const styles = {
-  bgColor: '#2c3e50"', // The extra quote makes this invalid (its ugly is why) But why is it still here, I have no idea, keeping it here for new -raph
-  rowTitleColor: "white",
-  rowContentColor: "white",
-  // rowContentColor: 'grey',
-  arrowColor: "white",
+const faqStyles = {
+  bgColor: "transparent",
+  rowTitleColor: "#091d2e",
+  rowContentColor: "#4e6073",
+  arrowColor: "#006c4c",
+  rowTitleTextSize: "1rem",
 };
 
-const config = {
-  // animate: true,
-  // arrowIcon: "V",
-  // tabFocus: true
-};
+const faqConfig = {};
+
+const membershipBenefits = [
+  { icon: Clock, text: "Access to the lab during opening hours" },
+  { icon: CircuitBoard, text: "Use of advanced equipment in the lab" },
+  { icon: Microchip, text: "Access to components for personal projects" },
+  { icon: ArrowLeftRight, text: "Rental of equipment for personal projects" },
+  { icon: UsersRound, text: "Collaboration with other members" },
+  { icon: HandHelping, text: "Support from experienced managers" },
+  { icon: School, text: "Training on lab safety and equipment use" },
+  { icon: Presentation, text: "Participation in workshops" },
+];
+
+const exploreLinks = [
+  { href: "/office-hours", icon: CalendarRange, label: "Office Hours", desc: "See when managers are available" },
+  { href: "/workshops", icon: Presentation, label: "Workshops", desc: "Browse upcoming and past sessions" },
+  { href: "/our-lab", icon: Warehouse, label: "Our Lab", desc: "Explore the equipment we offer" },
+  { href: "mailto:thefactory@mcgilleus.ca", icon: Mail, label: "Contact Us", desc: "Get in touch with the team", isExternal: true },
+];
 
 export default function Home() {
-  const [faqs, setFaqs] = useState<{
-    rows: { title: string; content: string }[];
-  }>({ rows: [] });
+  const [faqs, setFaqs] = useState<{ rows: { title: string; content: string }[] }>({ rows: [] });
 
   useEffect(() => {
-    const apiKey = process.env.NEXT_PUBLIC_API_KEY; // Access the API key from .env file
-
+    const apiKey = process.env.NEXT_PUBLIC_API_KEY;
     fetch("https://factorystrapi.mcgilleus.ca/api/faqs", {
       method: "GET",
-      headers: {
-        Authorization: `Bearer ${apiKey}`, // Use the API key in the Authorization header
-      },
+      headers: { Authorization: `Bearer ${apiKey}` },
     })
-      .then((response) => response.json())
+      .then((r) => r.json())
       .then((data) => {
-        // Map the fetched FAQDT[] into the structure required for the FAQ component
-        const formattedFaqs = data.data.map((faq: FAQDT) => ({
-          title: faq.attributes.title,
-          content: faq.attributes.content,
-        }));
-
-        // Update the state with the formatted FAQs
-        setFaqs({ rows: formattedFaqs });
+        setFaqs({
+          rows: data.data.map((faq: FAQDT) => ({
+            title: faq.attributes.title,
+            content: faq.attributes.content,
+          })),
+        });
       })
-      .catch((error) => console.log(error));
+      .catch(console.error);
   }, []);
+
   return (
     <>
-      {/* Mobile Version */}
+      {/* ── Hero ── */}
+      <section className="bg-surface relative min-h-screen flex items-start px-8 mx-auto pt-24 pb-32">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center max-w-7xl mx-auto">
+            <div className="lg:col-span-7 z-10">
+              <span className="inline-block mb-8 font-label text-primary font-semibold tracking-[0.2em] uppercase text-sm">McGill Engineering Makerspace</span>
+              <h1 className="font-headline text-6xl md:text-8xl font-bold leading-[0.9] tracking-tighter mb-12 text-on-surface">
+                The Factory - McGill&apos;s <span className="text-primary-container">ECSE</span> Makerspace.
+              </h1>
+              <p className="font-body text-xl text-secondary max-w-xl mb-16 leading-relaxed">
+                Where ideas come to life. Access industrial-grade tools and a community of innovators in the heart of McGill University.
+              </p>
+              <div className="flex flex-wrap gap-6">
+                <button className="cursor-pointer bg-gradient-to-br from-primary to-primary-container text-on-primary px-10 py-5 rounded-lg font-headline text-lg font-bold tracking-wider uppercase shadow-xl shadow-primary/10 hover:shadow-primary/20 transition-all">
+                  Join the Network
+                </button>
+                <button className="cursor-pointer group flex items-center gap-4 px-10 py-5 font-headline text-lg font-bold tracking-wider uppercase text-on-surface hover:text-primary transition-colors">
+                  View Equipment
+                  <span className="h-0.5 w-8 bg-primary-container transition-all group-hover:w-12"></span>
+                </button>
+              </div>
+            </div>
+            <div className="lg:col-span-5 relative">
+              <div className="absolute -top-20 w-[120%] h-[120%] circuit-pattern pointer-events-none"></div>
+                <img
+                  alt="The Factory Logo"
+                  className="w-full object-contain rounded-3xl scale-110 -translate-x-8"
+                  src="/FactoryFriendlyRobot.JPG"
+                />
+              
 
-      <div className="lg:hidden">
-        <div className="h-[770px] bg-factory-green flex items-center justify-center ">
-          <img src="/FactoryBoxWithText.png" alt="" className="w-72" />
-        </div>
-
-        <div className="bg-factory-black text-white font-medium px-10 pt-20 pb-12 flex flex-col items-center ">
-          <h2 className="text-4xl text-center">What is the Factory?</h2>
-          <Divider
-            aria-hidden="true"
-            sx={{
-              opacity: 1,
-              borderColor: "white",
-              borderWidth: 2,
-              width: "10%",
-              alignSelf: "center",
-              marginTop: "0.8rem",
-              marginBottom: "1rem",
-            }}
-          />
-          <p className="mt-3 text-lg mb-8 text-center">
-            The Factory is a hardware design lab run by students, for students
-            in the department of Electrical, Computer, and Software Engineering
-            at McGill University. The Factory is a dedicated space in room 0080
-            of the Trottier building for developing personal projects, gaining
-            experience with the latest hardware, or just brainstorming ideas
-            with fellow students. The Factory aims to foster an environment of
-            innovation and collaboration where the resources are provided to
-            make your ideas become a reality.
-          </p>
-          <h2 className="text-4xl text-center mb-4">Where is the Factory?</h2>
-          <Divider
-            aria-hidden="true"
-            sx={{
-              opacity: 1,
-              borderColor: "white",
-              borderWidth: 2,
-              width: "10%",
-              alignSelf: "center",
-              marginTop: "0.3rem",
-              marginBottom: "1rem",
-            }}
-          />
-          <p className="mb-5 text-center">
-            We're located in room 0080 of the Trottier Building! (See the
-            building in Red below)
-          </p>
-
-          <iframe
-            src="https://maps.mcgill.ca/?lat=45.50597407531836&lng=-73.57909006262219&z=16.25&cmp=1&txt=EN&id=Trottier"
-            width="80%"
-            height="500"
-            loading="lazy"
-            referrerPolicy="no-referrer-when-downgrade"
-          ></iframe>
-        </div>
-        <div className="bg-factory-black px-6 flex flex-col items-center">
-          <iframe
-            width="80%"
-            height="315"
-            src="https://www.youtube.com/embed/H-EEBm-rxqw?si=X_x06NfcIzyQxJbe"
-            title="YouTube video player"
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            referrerPolicy="strict-origin-when-cross-origin"
-            allowFullScreen
-            className=""
-          ></iframe>
-        </div>
-
-        <div className="bg-factory-black text-white font-medium px-10 pb-12 flex flex-col items-center ">
-          <div className="flex flex-col items-center gap-4">
-            <h3 className="text-center text-2xl mt-10">FAQ</h3>
-            <Divider
-              aria-hidden="true"
-              sx={{
-                opacity: 1,
-                borderColor: "white",
-                borderWidth: 2,
-                width: "10%",
-                alignSelf: "center",
-                marginTop: "0rem",
-                marginBottom: "0rem",
-              }}
-            />
-            <div>
-              <Faq data={faqs} styles={styles} config={config} />
+              <div className="absolute -bottom-25 -left-25 glass-card p-8 rounded-xl border border-white/20 shadow-xl hidden md:block">
+                <div className="flex items-center gap-4">
+                  <Bolt className="text-primary w-8 h-8" />
+                  <div>
+                    <p className="font-headline font-bold text-2xl">10:00-17:00</p>
+                    <p className="font-label text-xs uppercase tracking-widest text-secondary">Member Access</p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
+        </section>
 
-        <div className="bg-white px-10 pt-20 flex flex-col items-center">
-          <h2 className="text-center text-4xl font-medium">MEMBERSHIP</h2>
-          <Divider
-            aria-hidden="true"
-            sx={{
-              opacity: 1,
-              borderColor: "#000000",
-              borderWidth: 2,
-              width: "10%",
-              alignSelf: "center",
-              marginTop: "1rem",
-              marginBottom: "1rem",
-            }}
-          />
-          <p className="text-lg mt-6 text-center">
-            Becoming a member of the factory is free and gives you access to a
-            space dedicated to creativity. Whether you want to use the space to
-            work on personal projects, gain experience with hardware, or
-            brainstorm ideas with fellow students, the Factory is the place for
-            you!
-          </p>
-          <h3 className="text-center font-semibold text-2xl mt-6">
-            Membership Benefits
-          </h3>
+      {/* ── What is the Factory + Map ── */}
+      <section className="bg-surface-low py-24 px-6">
+        <div className="max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            {/* Text */}
+            <div>
+              <span className="inline-block mb-4 font-label text-primary font-semibold tracking-[0.2em] uppercase text-sm">About</span>
+              <h2 className="font-headline text-4xl md:text-5xl font-bold tracking-tight text-on-surface mb-5">
+                What is the Factory?
+              </h2>
+              <div className="w-12 h-1 bg-gradient-to-r from-primary to-primary-container rounded mb-6" />
+              <p className="font-body text-lg text-secondary leading-relaxed">
+                The Factory is a hardware design lab run by students, for students in
+                Electrical, Computer, and Software Engineering at McGill University. Located
+                in room 0080 of the Trottier Building, it&apos;s a dedicated space for developing
+                personal projects, gaining hands-on experience, and collaborating with fellow students.
+              </p>
+            </div>
 
-          <div className="flex mt-10 gap-32">
-            <ul className="flex-1 flex flex-col gap-y-5">
-              <li className="flex gap-3 ">
-                <Clock />
-                <p>Access to the lab during opening hours</p>
-              </li>
-              <li className="flex gap-3 ">
-                <CircuitBoard />
-                <p>Use of advanced equipment available in the lab</p>
-              </li>
-              <li className="flex gap-3">
-                <Microchip />
-                <p>Access to components for personal projects</p>
-              </li>
-              <li className="flex gap-3">
-                <ArrowLeftRight />
-                <p>Rental of equipment for personal projects</p>
-              </li>
-              <li className="flex gap-3 ">
-                <UsersRound />
-                <p>Collaboration with other members</p>
-              </li>
-
-              <li className="flex gap-3 ">
-                <HandHelping />
-                <p>Support from experienced managers</p>
-              </li>
-              <li className="flex gap-3 ">
-                <School />
-                <p>Available training on lab safety and equipment use</p>
-              </li>
-              <li className="flex gap-3">
-                <Presentation />
-                <p>Participation in workshops</p>
-              </li>
-            </ul>
-          </div>
-
-          <a
-            href="https://factorydb.notkaramel.dev/dashboard/#/nc/form/b1f34cd8-bde2-490c-abd9-dadbada72737"
-            target="_blank" // Opens in a new tab
-            rel="noopener noreferrer" // For security reasons to prevent tab hijacking
-            className="bg-factory-green p-3 rounded-lg mt-14 text-white font-semibold mb-8 hover:bg-factory-dark-green"
-          >
-            BECOME A MEMBER
-          </a>
-        </div>
-      </div>
-
-      {/* Desktop Version */}
-      <div className="hidden lg:block">
-        <div className="h-customh bg-factory-green flex items-center justify-center ">
-          <img src="/FactoryBoxWithText.png" alt="" />
-        </div>
-
-        <div className="bg-factory-black text-white font-medium px-40 pt-20 flex flex-col items-center pb-12">
-          <h2 className="text-4xl text-center">What is the Factory?</h2>
-          <Divider
-            aria-hidden="true"
-            sx={{
-              opacity: 1,
-              borderColor: "white",
-              borderWidth: 2,
-              width: "10%",
-              alignSelf: "center",
-              marginTop: "0.8rem",
-              marginBottom: "1rem",
-            }}
-          />
-          <p className="mt-3 text-lg mb-8 text-center">
-            The Factory is a hardware design lab run by students, for students
-            in the department of Electrical, Computer, and Software Engineering
-            at McGill University. The Factory is a dedicated space in room 0080
-            of the Trottier building for developing personal projects, gaining
-            experience with the latest hardware, or just brainstorming ideas
-            with fellow students. The Factory aims to foster an environment of
-            innovation and collaboration where the resources are provided to
-            make your ideas become a reality.
-          </p>
-          <h2 className="text-4xl text-center mb-4">Where is the Factory?</h2>
-          <Divider
-            aria-hidden="true"
-            sx={{
-              opacity: 1,
-              borderColor: "white",
-              borderWidth: 2,
-              width: "10%",
-              alignSelf: "center",
-              marginTop: "0.3rem",
-              marginBottom: "1rem",
-            }}
-          />
-
-          <p className="mb-2">
-            We're located in room 0080 of the Trottier Building! (See the
-            building in Red below)
-          </p>
-
-          <iframe
-            src="https://maps.mcgill.ca/?lat=45.50597407531836&lng=-73.57909006262219&z=16.25&cmp=1&txt=EN&id=Trottier"
-            width="1000"
-            height="500"
-            loading="lazy"
-            referrerPolicy="no-referrer-when-downgrade"
-          >
-            {" "}
-          </iframe>
-          <div className="flex gap-24 justify-center mt-14">
-            <iframe
-              width="560"
-              height="315"
-              src="https://www.youtube.com/embed/H-EEBm-rxqw?si=X_x06NfcIzyQxJbe"
-              title="YouTube video player"
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              referrerPolicy="strict-origin-when-cross-origin"
-              allowFullScreen
-              className="mt-12"
-            ></iframe>
-            <div className="flex flex-col items-center gap-4">
-              <h3 className="text-center text-2xl">FAQ</h3>
-              <Divider
-                aria-hidden="true"
-                sx={{
-                  opacity: 1,
-                  borderColor: "white",
-                  borderWidth: 2,
-                  width: "10%",
-                  alignSelf: "center",
-                  marginTop: "0rem",
-                  marginBottom: "0rem",
-                }}
-              />
-              <div className="w-[480px]">
-                <Faq data={faqs} styles={styles} config={config} />
+            {/* Map */}
+            <div>
+              <span className="inline-block mb-4 font-label text-primary font-semibold tracking-[0.2em] uppercase text-sm">Location</span>
+              <h3 className="font-headline text-2xl font-bold text-on-surface mb-2">Room 0080, Trottier Building</h3>
+              <p className="font-body text-sm text-secondary mb-4">Shown in red on the map below</p>
+              <div className="rounded-2xl overflow-hidden border border-surface-highest shadow-lg">
+                <iframe
+                  src="https://maps.mcgill.ca/?lat=45.50597407531836&lng=-73.57909006262219&z=16.25&cmp=1&txt=EN&id=Trottier"
+                  width="100%"
+                  height="360"
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  className="block"
+                />
               </div>
             </div>
           </div>
         </div>
+      </section>
 
-        <div className="bg-white px-36 pt-20 flex flex-col items-center">
-          <h2 className="text-center text-4xl font-medium">MEMBERSHIP</h2>
-          <Divider
-            aria-hidden="true"
-            sx={{
-              opacity: 1,
-              borderColor: "#000000",
-              borderWidth: 2,
-              width: "10%",
-              alignSelf: "center",
-              marginTop: "1rem",
-              marginBottom: "1rem",
-            }}
-          />
-          <p className="text-lg mt-6 text-center">
-            Becoming a member of the factory is free and gives you access to a
-            space dedicated to creativity. Whether you want to use the space to
-            work on personal projects, gain experience with hardware, or
-            brainstorm ideas with fellow students, the Factory is the place for
-            you!
+      {/* ── Video + FAQ ── */}
+      <section className="bg-surface py-24 px-6">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-14">
+            <span className="inline-block mb-4 font-label text-primary font-semibold tracking-[0.2em] uppercase text-sm">Discover</span>
+            <h2 className="font-headline text-4xl md:text-5xl font-bold tracking-tight text-on-surface">
+              See Us In Action
+            </h2>
+            <div className="w-12 h-1 bg-gradient-to-r from-primary to-primary-container rounded mx-auto mt-4" />
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+            {/* Video */}
+            <div>
+              <div className="rounded-2xl overflow-hidden border border-surface-highest shadow-lg aspect-video">
+                <iframe
+                  width="100%"
+                  height="100%"
+                  src="https://www.youtube.com/embed/H-EEBm-rxqw?si=X_x06NfcIzyQxJbe"
+                  title="The Factory video"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  referrerPolicy="strict-origin-when-cross-origin"
+                  allowFullScreen
+                  className="block w-full h-full"
+                />
+              </div>
+            </div>
+
+            {/* FAQ */}
+            <div>
+              <h3 className="font-headline text-2xl font-bold text-on-surface mb-2">Frequently Asked Questions</h3>
+              <div className="w-8 h-1 bg-gradient-to-r from-primary to-primary-container rounded mb-6" />
+              <Faq data={faqs} styles={faqStyles} config={faqConfig} />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Membership ── */}
+      <section className="bg-white py-20 px-6">
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900">Membership</h2>
+          <div className="section-divider !bg-gradient-to-r from-factory-green to-factory-dark-green" />
+          <p className="text-gray-500 text-base md:text-lg max-w-xl mx-auto mb-12 leading-relaxed">
+            Becoming a member is <strong className="text-gray-700">free</strong> and gives you
+            access to a space dedicated to creativity and innovation.
           </p>
-          <h3 className="text-center font-semibold text-2xl mt-6">
-            Membership Benefits
-          </h3>
 
-          <div className="flex mt-10 gap-32">
-            <ul className="flex-1 flex flex-col gap-y-4  text-nowrap">
-              <li className="flex gap-3 ">
-                <Clock />
-                <p>Access to the lab during opening hours</p>
-              </li>
-              <li className="flex gap-3 ">
-                <CircuitBoard />
-                <p>Use of advanced equipment available in the lab</p>
-              </li>
-              <li className="flex gap-3">
-                <Microchip />
-                <p>Access to components for personal projects</p>
-              </li>
-              <li className="flex gap-3">
-                <ArrowLeftRight />
-                <p>Rental of equipment for personal projects</p>
-              </li>
-            </ul>
-            <ul className="flex-1 gap-y-4 flex flex-col w-max  text-nowrap ">
-              <li className="flex gap-3 ">
-                <UsersRound />
-                <p>Collaboration with other members</p>
-              </li>
-
-              <li className="flex gap-3 ">
-                <HandHelping />
-                <p>Support from experienced managers</p>
-              </li>
-              <li className="flex gap-3 ">
-                <School />
-                <p>Available training on lab safety and equipment use</p>
-              </li>
-              <li className="flex gap-3">
-                <Presentation />
-                <p>Participation in workshops</p>
-              </li>
-            </ul>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-left mb-12">
+            {membershipBenefits.map(({ icon: Icon, text }) => (
+              <div
+                key={text}
+                className="flex items-center gap-3.5 p-4 rounded-xl border border-gray-100 bg-gray-50 hover:border-factory-green/30 hover:bg-factory-green/5 transition-all duration-200"
+              >
+                <div className="w-9 h-9 flex items-center justify-center rounded-lg bg-factory-green/10 text-factory-green shrink-0">
+                  <Icon size={18} />
+                </div>
+                <p className="text-gray-700 text-sm font-medium">{text}</p>
+              </div>
+            ))}
           </div>
 
           <a
             href="https://factorydb.notkaramel.dev/dashboard/#/nc/form/b1f34cd8-bde2-490c-abd9-dadbada72737"
-            target="_blank" // Opens in a new tab
-            rel="noopener noreferrer" // For security reasons to prevent tab hijacking
-            className="bg-factory-green p-3 rounded-lg mt-14 text-white font-semibold mb-8 hover:bg-factory-dark-green"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 bg-factory-green hover:bg-factory-dark-green text-white font-bold px-8 py-3.5 rounded-xl transition-all duration-200 hover:shadow-lg hover:shadow-factory-green/30 active:scale-95 tracking-wide"
           >
             BECOME A MEMBER
+            <ChevronRight size={18} />
           </a>
         </div>
+      </section>
 
-        <div className="h-[650px] bg-factory-black text-white font-medium px-40 pt-20 flex flex-col items-center ">
-          <h2 className="text-4xl text-center">Learn more</h2>
-          <Divider
-            aria-hidden="true"
-            sx={{
-              opacity: 1,
-              borderColor: "white",
-              borderWidth: 2,
-              width: "10%",
-              alignSelf: "center",
-              marginTop: "1rem",
-              marginBottom: "1rem",
-            }}
-          />
-          <div className="flex px-28 mt-10 gap-44">
-            <ul className="flex flex-col gap-y-14">
-              <Link
-                href="/office-hours"
-                className="flex flex-col items-center gap-2 hover:bg-factory-dark-black p-8"
-              >
-                <CalendarRange size={44} />
-                <p className="text-4xl">Offifce Hours</p>
-              </Link>
-
-              <Link
-                href="/our-lab"
-                className="flex flex-col items-center gap-2 hover:bg-factory-dark-black p-8"
-              >
-                <Warehouse size={44} />
-                <p className="text-4xl">Our Lab</p>
-              </Link>
-            </ul>
-            <ul className="flex flex-col gap-y-14">
-              <Link
-                href="/workshops"
-                className="flex flex-col items-center gap-2 hover:bg-factory-dark-black p-8"
-              >
-                {" "}
-                <Presentation size={44} />
-                <p className="text-4xl">Workshops</p>
-              </Link>
-
-              <a
-                href="mailto:thefactory@mcgilleus.ca"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex flex-col items-center gap-2 hover:bg-factory-dark-black p-8"
-              >
-                <Mail size={44} />
-                <p className="text-4xl">Contact Us</p>
-              </a>
-            </ul>
+      {/* ── Learn More ── (desktop only, matches original) */}
+      <section className="hidden lg:block bg-surface text-white py-20 px-6">
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-3xl md:text-4xl font-bold mb-3 text-black">Learn More</h2>
+          <div className="section-divider" />
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-10">
+            {exploreLinks.map(({ href, icon: Icon, label, desc, isExternal }) => {
+              const cls = "group flex flex-col items-center gap-3 p-6 rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 hover:border-factory-green/40 transition-all duration-200";
+              const inner = (
+                <>
+                  <div className="w-12 h-12 flex items-center justify-center rounded-xl bg-factory-green/15 text-factory-green group-hover:bg-factory-green group-hover:text-white transition-all duration-200">
+                    <Icon size={22} />
+                  </div>
+                  <span className="text-black font-semibold">{label}</span>
+                  <span className="text-black text-xs text-center leading-relaxed">{desc}</span>
+                </>
+              );
+              return isExternal ? (
+                <a key={label} href={href} target="_blank" rel="noopener noreferrer" className={cls}>{inner}</a>
+              ) : (
+                <Link key={label} href={href} className={cls}>{inner}</Link>
+              );
+            })}
           </div>
         </div>
-      </div>
+      </section>
     </>
   );
 }
