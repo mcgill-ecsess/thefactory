@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
+import Image from "next/image";
 import { LabSectionRow } from "../types/LabSectionRow";
 
 type Props = {
@@ -64,12 +65,18 @@ export default function LabGallerySection({ SectionTitle, LabSectionRows, index 
                 onKeyDown={(e) => e.key === "Enter" && openLightbox(i)}
               >
                 {/* Image */}
-                <div className={`overflow-hidden ${isFeature ? "h-72 sm:h-80" : "h-64"}`}>
-                  <img
+                <div className={`relative overflow-hidden ${isFeature ? "h-72 sm:h-80" : "h-64"}`}>
+                  <Image
                     src={imgUrl}
                     alt={`${SectionTitle} — item ${i + 1}`}
+                    fill
+                    sizes={isFeature
+                      ? "(max-width: 640px) 100vw, (max-width: 1024px) 100vw, 66vw"
+                      : "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    }
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
                     loading="lazy"
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    quality={75}
                   />
                 </div>
 
@@ -124,11 +131,17 @@ export default function LabGallerySection({ SectionTitle, LabSectionRows, index 
               <X size={16} />
             </button>
 
-            <img
-              src={`${STRAPI_BASE}${LabSectionRows[lightboxIdx].Image.data.attributes.url}`}
-              alt={`${SectionTitle} — item ${lightboxIdx + 1}`}
-              className="w-full max-h-[70vh] object-contain"
-            />
+            <div className="relative w-full h-[70vh]">
+              <Image
+                src={`${STRAPI_BASE}${LabSectionRows[lightboxIdx].Image.data.attributes.url}`}
+                alt={`${SectionTitle} — item ${lightboxIdx + 1}`}
+                fill
+                sizes="(max-width: 768px) 100vw, 896px"
+                className="object-contain"
+                loading="eager"
+                quality={85}
+              />
+            </div>
 
             {/* Description */}
             {(() => {
