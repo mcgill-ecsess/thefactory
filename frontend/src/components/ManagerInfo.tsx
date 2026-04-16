@@ -1,7 +1,7 @@
 "use client";
 
+import Image from "next/image";
 import {
-  Avatar,
   Chip,
   Dialog,
   DialogContent,
@@ -13,6 +13,8 @@ import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import { Close } from "@mui/icons-material";
 import { FactoryManager } from "../types/FactoryManager";
+
+const STRAPI_BASE = "https://factorystrapi.mcgilleus.ca";
 
 function formatTime(date: Date): string {
   return date.toLocaleTimeString([], {
@@ -27,36 +29,41 @@ export default function ManagerInfo(props: {
   open: boolean;
   onClose: () => void;
 }) {
-  // Destructure props for cleaner access
   const { manager, open, onClose } = props;
 
-  // Return early if manager is null to avoid rendering unnecessary content
-  if (!manager) {
-    return null;
-  }
+  if (!manager) return null;
 
+  const pictureUrl = manager.attributes.picture.data
+    ? `${STRAPI_BASE}${manager.attributes.picture.data.attributes.url}`
+    : null;
 
+  const initials = `${manager.attributes.First_Name?.charAt(0) ?? ""}${manager.attributes.Last_Name?.charAt(0) ?? ""}`;
 
   return (
     <Dialog open={open} maxWidth="sm" fullWidth onClose={onClose}>
       <DialogContent className="flex flex-col items-start">
         <Box className="flex flex-row w-full justify-between">
-          <Box className="flex flex-row items-center pb-4">
-            {manager.attributes.picture.data ? (
-              <Avatar
-                alt={manager.attributes.First_Name}
-                src={`https://factorystrapi.mcgilleus.ca${manager.attributes.picture.data.attributes.url}`}
-                sx={{ width: "6rem", height: "6rem" }}
-              />
-            ) : (
-              <Avatar
-                alt={manager.attributes.First_Name}
-                src="/static/images/avatar/1.jpg"
-                sx={{ width: "6rem", height: "6rem" }}
-              />
-            )}
+          <Box className="flex flex-row items-center pb-4 gap-4">
+            {/* Avatar — fixed 96×96 container to prevent layout shift */}
+            <div className="relative w-24 h-24 rounded-full overflow-hidden shrink-0 bg-gray-100">
+              {pictureUrl ? (
+                <Image
+                  src={pictureUrl}
+                  alt={manager.attributes.First_Name}
+                  fill
+                  sizes="96px"
+                  className="object-cover object-top"
+                  loading="eager"
+                  quality={75}
+                />
+              ) : (
+                <div className="w-full h-full flex items-center justify-center bg-factory-green/20 text-factory-green font-bold text-xl select-none">
+                  {initials}
+                </div>
+              )}
+            </div>
 
-            <Box className="flex flex-col ml-4">
+            <Box className="flex flex-col">
               <Typography variant="h6">
                 {manager.attributes.First_Name} {manager.attributes.Last_Name}
               </Typography>
@@ -86,21 +93,21 @@ export default function ManagerInfo(props: {
               </Link>
             </Box>
           </Box>
-          <IconButton className="self-start" onClick={onClose}>
+
+          <IconButton className="self-start" onClick={onClose} aria-label="Close">
             <Close />
           </IconButton>
         </Box>
 
-        {props.manager?.attributes.Skills &&
-        props.manager?.attributes.Skills.length > 0 ? (
+        {manager.attributes.Skills && manager.attributes.Skills.length > 0 ? (
           <>
             <Divider className="w-full" />
             <div className="w-full">
               <Typography variant="h6" className="text-left">
                 Skills
               </Typography>
-              <div className="flex flex-wrap gap-1 h-fit max-h-48 overflow-scroll py-2">
-                {props.manager?.attributes.Skills?.map((skill, index) => (
+              <div className="flex flex-wrap gap-1 h-fit max-h-48 overflow-y-auto py-2">
+                {manager.attributes.Skills.map((skill, index) => (
                   <Chip
                     key={index}
                     className="text-center"

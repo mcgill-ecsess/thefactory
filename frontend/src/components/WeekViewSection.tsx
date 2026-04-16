@@ -45,13 +45,34 @@ export function WeekViewSection(props: WeekViewSectionProps) {
   };
 
   return (
-    <section className="py-16 px-6 bg-white min-h-[750px]">
-      <div className="max-w-6xl mx-auto">
+    <section className="py-16 px-6 bg-gray-50 min-h-[600px]">
+      <div className="max-w-5xl mx-auto">
+        {/* Header */}
         <div className="text-center mb-10">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900">Office Hours</h2>
-          <div className="section-divider !bg-gradient-to-r from-factory-green to-factory-dark-green" />
-          <p className="text-gray-400 text-sm mt-2">Drop by the lab when a manager is in</p>
+          <span className="inline-block text-factory-green text-xs font-bold uppercase tracking-widest mb-3">
+            Lab Schedule
+          </span>
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 text-balance">
+            Office Hours
+          </h2>
+          <div className="section-divider !bg-factory-green mt-3" />
+          <p className="text-gray-400 text-sm mt-4">
+            Click any block to see manager details &amp; contact info
+          </p>
         </div>
+
+        {/* Legend */}
+        <div className="flex items-center justify-center gap-4 mb-8">
+          <div className="flex items-center gap-1.5">
+            <div className="w-3 h-3 rounded-sm bg-factory-green/20 border border-factory-green/40" />
+            <span className="text-xs text-gray-400">1 hr session</span>
+          </div>
+          <div className="flex items-center gap-1.5">
+            <div className="w-3 h-[18px] rounded-sm bg-factory-green/20 border border-factory-green/40" />
+            <span className="text-xs text-gray-400">1.5 hr session</span>
+          </div>
+        </div>
+
         <WeekView
           officeHours={officeHours}
           startTime={new Date(2021, 1, 1, 10, 30)}
