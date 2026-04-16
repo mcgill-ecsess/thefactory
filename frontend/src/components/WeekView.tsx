@@ -30,7 +30,7 @@ export default function WeekView(props: {
    * Unit = 30 minutes = SLOT_HEIGHT_PX.
    * So 1 hour = 2 × SLOT_HEIGHT_PX, 1.5 hours = 3 × SLOT_HEIGHT_PX (exactly 1.5× the 1-hour block).
    */
-  const SLOT_HEIGHT_PX = 40; // px per 30-minute unit
+  const SLOT_HEIGHT_PX = 52; // px per 30-minute unit
   const SLOT_GAP_PX = 6;     // gap between blocks
 
   function getSlotHeight(start: Date, end: Date): number {
@@ -105,11 +105,11 @@ export default function WeekView(props: {
                       <div className="absolute left-0 top-0 bottom-0 w-[3px] bg-factory-green group-hover:bg-white/50 transition-colors duration-200 rounded-l-xl" />
 
                       <div className="pl-3 pr-1.5 py-1.5 flex flex-col justify-center h-full">
-                        <span className="block text-xs md:text-sm font-semibold text-factory-green group-hover:text-white leading-tight truncate transition-colors duration-200">
+                        <span className="block text-sm md:text-base font-semibold text-factory-green group-hover:text-white leading-tight truncate transition-colors duration-200">
                           {officeHour.attributes.First_Name}
                         </span>
                         {blockHeight >= SLOT_HEIGHT_PX * 1.5 && (
-                          <span className="block text-[0.65rem] md:text-xs text-factory-green/70 group-hover:text-white/80 leading-tight transition-colors duration-200 mt-1">
+                          <span className="block text-xs md:text-sm text-factory-green/70 group-hover:text-white/80 leading-tight transition-colors duration-200 mt-1">
                             {toTimeString(officeHour.attributes.Start_Time)}
                             <br />
                             {toTimeString(officeHour.attributes.End_Time)}
