@@ -36,7 +36,7 @@ export default function Workshops() {
         </p>
       </div>
 
-      <div className="max-w-4xl mx-auto px-6 py-14 flex flex-col gap-12">
+      <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 py-14 flex flex-col gap-12">
         <UpcomingWorkshops upcomingWorkshops={upcomingWorkshops} />
         <PastWorkshops pastWorkshops={pastWorkshops} />
       </div>

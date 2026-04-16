@@ -75,59 +75,62 @@ export function WorkshopAccordion(props: {
           >
             <AccordionSummary
               expandIcon={
-                <div className="flex flex-row items-center">
+                <div className="flex flex-row items-center shrink-0">
                   <ExpandMoreOutlined />
                 </div>
               }
-              className="p-0 m-0"
+              className="p-0 m-0 w-full"
+              sx={{ "& .MuiAccordionSummary-content": { width: "100%", minWidth: 0 } }}
             >
-              <Box
-                component="img"
-                src={`https://factorystrapi.mcgilleus.ca${workshop.attributes.CoverPicture.data[0].attributes.url}`}
-                className="h-24 w-24 rounded-sm aspect-square contain-content "
-              />
-              <Box className="flex flex-col pl-4 gap-1">
-                <h4 className="text-2xl md:text-3xl lg:text-4xl font-medium">
-                  {workshop.attributes.WorkshopTitle}
-                </h4>
-                <Typography>{eventDetails}</Typography>
-                <div className="flex md:gap-7 gap-1 md:flex-row flex-col mt-1">
-                  {workshop.attributes.workshopSlides && (
-                    <Link
-                      underline={"hover"}
-                      className="self-start"
-                      onClick={(event) => handleViewSlides(event, workshop)}
-                      sx={{
-                        "&:hover": {
-                          color: "#57bf94",
-                        },
-                      }}
-                    >
-                      <p className="flex gap-2 mt-1 items-center font-bold text-factory-green text-sm">
-                        <Presentation size={20} />
-                        View Workshop Slides
-                      </p>
-                    </Link>
-                  )}
+              <Box className="flex flex-row items-start gap-3 w-full min-w-0">
+                <Box
+                  component="img"
+                  src={`https://factorystrapi.mcgilleus.ca${workshop.attributes.CoverPicture.data[0].attributes.url}`}
+                  className="h-16 w-16 sm:h-20 sm:w-20 md:h-24 md:w-24 rounded-sm aspect-square shrink-0 object-cover"
+                />
+                <Box className="flex flex-col gap-1 min-w-0 flex-1">
+                  <h4 className="text-lg sm:text-2xl md:text-3xl lg:text-4xl font-medium leading-tight">
+                    {workshop.attributes.WorkshopTitle}
+                  </h4>
+                  <Typography className="text-sm sm:text-base break-words">{eventDetails}</Typography>
+                  <div className="flex gap-3 sm:gap-7 flex-row flex-wrap mt-1">
+                    {workshop.attributes.workshopSlides && (
+                      <Link
+                        underline={"hover"}
+                        className="self-start"
+                        onClick={(event) => handleViewSlides(event, workshop)}
+                        sx={{
+                          "&:hover": {
+                            color: "#57bf94",
+                          },
+                        }}
+                      >
+                        <p className="flex gap-2 mt-1 items-center font-bold text-factory-green text-sm">
+                          <Presentation size={18} />
+                          View Workshop Slides
+                        </p>
+                      </Link>
+                    )}
 
-                  {workshop.attributes.signupLink && isFutureWorkshop && (
-                    <Link
-                      underline={"hover"}
-                      className="self-start"
-                      onClick={(event) => handleSignUp(event, workshop)}
-                      sx={{
-                        "&:hover": {
-                          color: "#57bf94",
-                        },
-                      }}
-                    >
-                      <p className="flex gap-2 mt-1 items-center font-bold text-factory-green text-sm">
-                        <UserRoundCheck size={20} />
-                        Sign Up Form
-                      </p>
-                    </Link>
-                  )}
-                </div>
+                    {workshop.attributes.signupLink && isFutureWorkshop && (
+                      <Link
+                        underline={"hover"}
+                        className="self-start"
+                        onClick={(event) => handleSignUp(event, workshop)}
+                        sx={{
+                          "&:hover": {
+                            color: "#57bf94",
+                          },
+                        }}
+                      >
+                        <p className="flex gap-2 mt-1 items-center font-bold text-factory-green text-sm">
+                          <UserRoundCheck size={18} />
+                          Sign Up Form
+                        </p>
+                      </Link>
+                    )}
+                  </div>
+                </Box>
               </Box>
             </AccordionSummary>
             <AccordionDetails className="pt-4">
