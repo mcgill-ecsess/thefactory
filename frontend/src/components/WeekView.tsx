@@ -50,7 +50,8 @@ export default function WeekView(props: {
 
   if (!hasValidData) {
     return (
-      <div className="grid grid-cols-5 gap-3 w-full">
+      <div className="w-full overflow-x-auto -mx-2 px-2">
+      <div className="grid grid-cols-5 gap-3" style={{ minWidth: "480px" }}>
         {days.map((day, i) => (
           <div key={i} className="flex flex-col gap-1">
             <div className="text-center text-xs font-semibold uppercase tracking-widest text-gray-400 pb-2">
@@ -63,12 +64,13 @@ export default function WeekView(props: {
           </div>
         ))}
       </div>
+      </div>
     );
   }
 
   return (
-    <div className="w-full">
-      <div className="grid grid-cols-5 gap-2 md:gap-4 w-full">
+    <div className="w-full overflow-x-auto -mx-2 px-2">
+      <div className="grid grid-cols-5 gap-2 md:gap-4" style={{ minWidth: "480px" }}>
         {days.map((day, dayIndex) => (
           <div key={dayIndex} className="flex flex-col">
             {/* Day header */}
