@@ -1,7 +1,9 @@
 "use client";
 
-import { Avatar } from "@mui/material";
+import Image from "next/image";
 import { FactoryManager } from "../types/FactoryManager";
+
+const STRAPI_BASE = "https://factorystrapi.mcgilleus.ca";
 
 export default function ManagerCard(props: {
   manager: FactoryManager;
@@ -9,32 +11,45 @@ export default function ManagerCard(props: {
 }) {
   const { manager } = props;
   const pictureUrl = manager.attributes.picture.data
-    ? `https://factorystrapi.mcgilleus.ca${manager.attributes.picture.data.attributes.url}`
-    : undefined;
+    ? `${STRAPI_BASE}${manager.attributes.picture.data.attributes.url}`
+    : null;
 
   return (
     <button
       onClick={() => props.onClick(manager)}
-      className="group flex flex-col items-center gap-2 p-4 rounded-2xl hover:bg-white/8 transition-all duration-200 w-full text-center"
+      aria-label={`View profile of ${manager.attributes.First_Name} ${manager.attributes.Last_Name}`}
+      className="group flex flex-col items-center gap-3 p-5 rounded-xl w-full text-center
+                 hover:bg-white/5 active:bg-white/8 transition-colors duration-150"
     >
-      <div className="relative">
-        <Avatar
-          alt={manager.attributes.First_Name}
-          src={pictureUrl ?? "/static/images/avatar/1.jpg"}
-          sx={{ width: "5rem", height: "5rem" }}
-          className="ring-2 ring-transparent group-hover:ring-factory-green transition-all duration-200"
-        />
+      {/* Avatar */}
+      <div className="relative w-[72px] h-[72px] rounded-full overflow-hidden shrink-0
+                      ring-2 ring-white/10 group-hover:ring-factory-green/60
+                      transition-all duration-200 bg-white/5">
+        {pictureUrl ? (
+          <Image
+            src={pictureUrl}
+            alt={manager.attributes.First_Name}
+            fill
+            sizes="72px"
+            className="object-cover object-top"
+            loading="lazy"
+            quality={60}
+          />
+        ) : (
+          <span className="absolute inset-0 flex items-center justify-center
+                           text-factory-green font-bold text-xl select-none">
+            {manager.attributes.First_Name?.charAt(0) ?? "?"}
+          </span>
+        )}
       </div>
 
-      <div className="flex flex-col items-center gap-0.5">
-        <span className="text-white font-semibold text-sm leading-tight">
-          {manager.attributes.Modified_First_Name}
+      {/* Text */}
+      <div className="flex flex-col items-center gap-1">
+        <span className="text-white font-semibold text-sm leading-tight text-balance">
+          {manager.attributes.Modified_First_Name ?? manager.attributes.First_Name}
         </span>
-        <span className="text-white/50 text-xs">
+        <span className="text-white/40 text-xs leading-snug text-balance">
           {manager.attributes.Role}
-        </span>
-        <span className="text-factory-green text-xs font-medium mt-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-          View Profile →
         </span>
       </div>
     </button>

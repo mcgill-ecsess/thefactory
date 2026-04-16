@@ -36,24 +36,24 @@ export function ManagerSection(props: ManagerSectionProps) {
   };
 
   return (
-    <section className="bg-factory-black text-white py-16 px-6">
+    <section className="bg-[#1a1e24] text-white py-16 px-6">
       <div className="max-w-6xl mx-auto">
+
         {/* Header */}
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold">Managers</h2>
-          <div className="section-divider" />
+        <div className="mb-14">
+          <span className="text-factory-green text-xs font-bold uppercase tracking-widest">
+            The Team
+          </span>
+          <h2 className="text-4xl font-bold mt-2 text-balance">Managers</h2>
+          <div className="h-px bg-white/10 mt-6" />
         </div>
 
         {/* Steering Committee */}
         <div className="mb-14">
-          <div className="flex items-center gap-3 mb-6">
-            <div className="h-px flex-1 bg-white/10" />
-            <span className="text-white/50 text-sm font-semibold uppercase tracking-widest px-3">
-              Steering Committee
-            </span>
-            <div className="h-px flex-1 bg-white/10" />
-          </div>
-          <Grid container className="justify-center">
+          <p className="text-white/40 text-xs font-semibold uppercase tracking-widest mb-8">
+            Steering Committee
+          </p>
+          <Grid container spacing={0}>
             {steeringCommittee.map((manager) => (
               <Grid size={{ xs: 6, sm: 4, md: 3, lg: 2 }} key={manager.id}>
                 <ManagerCard manager={manager} onClick={selectManager} />
@@ -62,16 +62,14 @@ export function ManagerSection(props: ManagerSectionProps) {
           </Grid>
         </div>
 
+        <div className="h-px bg-white/10 mb-14" />
+
         {/* General Managers */}
         <div>
-          <div className="flex items-center gap-3 mb-6">
-            <div className="h-px flex-1 bg-white/10" />
-            <span className="text-white/50 text-sm font-semibold uppercase tracking-widest px-3">
-              General Managers
-            </span>
-            <div className="h-px flex-1 bg-white/10" />
-          </div>
-          <Grid container className="justify-center">
+          <p className="text-white/40 text-xs font-semibold uppercase tracking-widest mb-8">
+            General Managers
+          </p>
+          <Grid container spacing={0}>
             {generalManagers.map((manager) => (
               <Grid size={{ xs: 6, sm: 4, md: 3, lg: 2 }} key={manager.id}>
                 <ManagerCard manager={manager} onClick={selectManager} />
@@ -79,6 +77,7 @@ export function ManagerSection(props: ManagerSectionProps) {
             ))}
           </Grid>
         </div>
+
       </div>
 
       <ManagerInfo manager={selectedManager} open={open} onClose={() => setOpen(false)} />
