@@ -46,29 +46,60 @@ export default function OurLab() {
       </section>
 
       {/* Hero photo strip */}
-      <section className="px-6 pb-16">
-        <div className="max-w-6xl mx-auto grid grid-cols-2 lg:grid-cols-4 gap-3">
-          {[
-            { src: "/lab/IMG_0708.jpg", alt: "Lab overview", span: "col-span-2 row-span-2", sizes: "(max-width: 1024px) 100vw, 50vw" },
-            { src: "/lab/IMG_0709.jpg", alt: "Equipment detail", sizes: "(max-width: 1024px) 50vw, 25vw" },
-            { src: "/lab/IMG_0713.jpg", alt: "Workstation", sizes: "(max-width: 1024px) 50vw, 25vw" },
-            { src: "/lab/IMG_0714.jpg", alt: "Lab tools", span: "col-span-2", sizes: "(max-width: 1024px) 100vw, 50vw" },
-          ].map(({ src, alt, span = "", sizes }) => (
-            <div
-              key={src}
-              className={`relative ${span} overflow-hidden rounded-2xl bg-white/5 min-h-[180px]`}
-            >
-              <Image
-                src={src}
-                alt={alt}
-                fill
-                sizes={sizes}
-                className="object-cover transition-transform duration-700 hover:scale-105"
-                loading="lazy"
-                quality={80}
-              />
-            </div>
-          ))}
+      <section className="px-6 pb-20">
+        <div
+          className="max-w-7xl mx-auto grid gap-4"
+          style={{ gridTemplateColumns: "2fr 1fr 1fr", gridTemplateRows: "340px 260px" }}
+        >
+          {/* Large feature — spans 2 rows on the left */}
+          <div className="relative row-span-2 overflow-hidden rounded-3xl bg-white/5">
+            <Image
+              src="/lab/IMG_0708.jpg"
+              alt="Lab overview"
+              fill
+              sizes="(max-width: 1024px) 100vw, 50vw"
+              className="object-cover transition-transform duration-700 hover:scale-105"
+              loading="lazy"
+              quality={80}
+            />
+          </div>
+
+          {/* Top-right pair */}
+          <div className="relative overflow-hidden rounded-3xl bg-white/5">
+            <Image
+              src="/lab/IMG_0709.jpg"
+              alt="Equipment detail"
+              fill
+              sizes="(max-width: 1024px) 50vw, 25vw"
+              className="object-cover transition-transform duration-700 hover:scale-105"
+              loading="lazy"
+              quality={80}
+            />
+          </div>
+          <div className="relative overflow-hidden rounded-3xl bg-white/5">
+            <Image
+              src="/lab/IMG_0713.jpg"
+              alt="Workstation"
+              fill
+              sizes="(max-width: 1024px) 50vw, 25vw"
+              className="object-cover transition-transform duration-700 hover:scale-105"
+              loading="lazy"
+              quality={80}
+            />
+          </div>
+
+          {/* Bottom-right pair spanning 2 columns */}
+          <div className="relative col-span-2 overflow-hidden rounded-3xl bg-white/5">
+            <Image
+              src="/lab/IMG_0714.jpg"
+              alt="Lab tools"
+              fill
+              sizes="(max-width: 1024px) 100vw, 50vw"
+              className="object-cover transition-transform duration-700 hover:scale-105"
+              loading="lazy"
+              quality={80}
+            />
+          </div>
         </div>
       </section>
 
