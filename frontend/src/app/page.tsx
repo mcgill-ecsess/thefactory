@@ -77,7 +77,7 @@ export default function Home() {
       <div className="relative z-10">
 
       {/* ── Hero ── */}
-      <section className="relative min-h-screen flex items-start px-8 mx-auto pt-24 pb-32 overflow-hidden">
+      <section className="relative min-h-screen flex items-start px-6 md:px-8 mx-auto pt-24 pb-24 md:pb-32 overflow-hidden">
         {/* Grid backdrop */}
         <div
           aria-hidden="true"
@@ -108,25 +108,25 @@ export default function Home() {
               </span>
               <div className="mt-2 h-0.5 w-20 bg-factory-green/70 rounded-sm" />
             </div>
-            <h1 className="font-bold leading-[1.02] tracking-tighter mb-10 text-white text-balance">
-              <span className="text-6xl md:text-8xl">The Factory</span> <br />
-              <span className="text-5xl md:text-7xl">McGill&apos;s <span className="text-factory-green">ECSE</span> Makerspace</span>
+            <h1 className="font-bold leading-[1.04] tracking-tighter mb-8 md:mb-10 text-white text-balance">
+              <span className="text-5xl sm:text-6xl md:text-8xl">The Factory</span> <br />
+              <span className="text-3xl sm:text-4xl md:text-7xl">McGill&apos;s <span className="text-factory-green">ECSE</span> Makerspace</span>
             </h1>
             <p className="text-lg md:text-xl text-white/50 max-w-xl mb-14 leading-relaxed">
               Build projects with tools, space, and a student community that ships. Made by students, for students. Find us in room 0080 of the Trottier Building.
             </p>
-            <div className="flex flex-wrap gap-6">
+            <div className="flex flex-wrap gap-3 md:gap-6">
               <a
                 href="https://factorydb.notkaramel.dev/dashboard/#/nc/form/b1f34cd8-bde2-490c-abd9-dadbada72737"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-factory-green hover:bg-factory-dark-green text-white px-10 py-5 rounded-xl font-bold tracking-wider uppercase shadow-xl shadow-factory-green/10 hover:shadow-factory-green/20 transition-all"
+                className="bg-factory-green hover:bg-factory-dark-green text-white px-6 md:px-10 py-3.5 md:py-5 rounded-xl font-bold tracking-wider uppercase text-sm md:text-base shadow-xl shadow-factory-green/10 hover:shadow-factory-green/20 transition-all"
               >
                 Join the Network
               </a>
               <Link
                 href="/our-lab"
-                className="group flex items-center gap-4 px-10 py-5 font-bold tracking-wider uppercase text-white/70 hover:text-factory-green transition-colors"
+                className="group flex items-center gap-3 md:gap-4 px-6 md:px-10 py-3.5 md:py-5 font-bold tracking-wider uppercase text-sm md:text-base text-white/70 hover:text-factory-green transition-colors"
               >
                 View Equipment
                 <span className="h-0.5 w-8 bg-factory-green/50 transition-all group-hover:w-12 group-hover:bg-factory-green" />
@@ -138,7 +138,7 @@ export default function Home() {
             <div className="absolute -top-20 w-[120%] h-[120%] circuit-pattern pointer-events-none" />
             <img
               alt="The Factory Logo"
-              className="w-full object-contain rounded-3xl scale-110 -translate-x-8"
+              className="w-full object-contain rounded-3xl scale-102 md:scale-110 md:-translate-x-8"
               src="/FactoryFriendlyRobot.JPG"
             />
 
