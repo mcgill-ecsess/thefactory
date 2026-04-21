@@ -2,60 +2,77 @@
 
 import { useContext } from "react";
 import { InventoryContext } from "@/Contexts/InventoryContext";
+import FactoryPageShell, { ShellPanel } from "@/components/FactoryPageShell";
+import Spinner from "@/components/Spinner";
 
 export default function Inventory() {
   const inventoryContext = useContext(InventoryContext);
 
-  if (!inventoryContext) {
-    return <p>Loading...</p>; // Handle loading state
-  }
+  if (!inventoryContext) return <Spinner />;
 
   const { inventory } = inventoryContext;
 
   return (
-    <div className="container mx-auto p-6">
-      <h1 className="text-3xl font-bold mb-4">Inventory List</h1>
-
-      <table className="min-w-full table-auto border-collapse border border-gray-200">
-        <thead>
-          <tr className="bg-gray-100">
-            <th className="border px-4 py-2">Name</th>
-            <th className="border px-4 py-2">Category</th>
-            <th className="border px-4 py-2">Quantity</th>
-            <th className="border px-4 py-2">Brand</th>
-            <th className="border px-4 py-2">Model Number</th>
-            <th className="border px-4 py-2">Serial Number</th>
-            <th className="border px-4 py-2">Location</th>
-            <th className="border px-4 py-2">State</th>
-            <th className="border px-4 py-2">Type</th>
-            <th className="border px-4 py-2">Class</th>
-          </tr>
-        </thead>
-        <tbody>
-          {inventory.length > 0 ? (
-            inventory.map((item) => (
-              <tr key={item.id}>
-                <td className="border px-4 py-2">{item.name}</td>
-                <td className="border px-4 py-2">{item.category}</td>
-                <td className="border px-4 py-2">{item.quantity}</td>
-                <td className="border px-4 py-2">{item.brand}</td>
-                <td className="border px-4 py-2">{item.modelNumber}</td>
-                <td className="border px-4 py-2">{item.serialNumber}</td>
-                <td className="border px-4 py-2">{item.location}</td>
-                <td className="border px-4 py-2">{item.state}</td>
-                <td className="border px-4 py-2">{item.type}</td>
-                <td className="border px-4 py-2">{item.class}</td>
-              </tr>
-            ))
-          ) : (
-            <tr>
-              <td colSpan={9} className="border px-4 py-2 text-center">
-                No inventory items available.
-              </td>
-            </tr>
-          )}
-        </tbody>
-      </table>
-    </div>
+    <FactoryPageShell
+      hero={{
+        eyebrow: "Admin",
+        title: "Inventory",
+        description: "All lab equipment and components tracked in one place.",
+      }}
+    >
+      <div className="max-w-360 mx-auto px-6 pb-16">
+        <ShellPanel>
+          <div className="overflow-x-auto">
+            <table className="min-w-full text-sm text-white/80">
+              <thead>
+                <tr className="border-b border-white/10 bg-white/5 text-white/50 uppercase text-xs tracking-widest">
+                  <th className="px-5 py-3 text-left font-semibold">Name</th>
+                  <th className="px-5 py-3 text-left font-semibold">Category</th>
+                  <th className="px-5 py-3 text-left font-semibold">Qty</th>
+                  <th className="px-5 py-3 text-left font-semibold">Brand</th>
+                  <th className="px-5 py-3 text-left font-semibold">Model</th>
+                  <th className="px-5 py-3 text-left font-semibold">Serial</th>
+                  <th className="px-5 py-3 text-left font-semibold">Location</th>
+                  <th className="px-5 py-3 text-left font-semibold">State</th>
+                  <th className="px-5 py-3 text-left font-semibold">Type</th>
+                  <th className="px-5 py-3 text-left font-semibold">Class</th>
+                </tr>
+              </thead>
+              <tbody>
+                {inventory.length > 0 ? (
+                  inventory.map((item) => (
+                    <tr
+                      key={item.id}
+                      className="border-b border-white/5 hover:bg-white/6 transition-colors"
+                    >
+                      <td className="px-5 py-3">{item.name}</td>
+                      <td className="px-5 py-3 text-white/60">{item.category}</td>
+                      <td className="px-5 py-3">{item.quantity}</td>
+                      <td className="px-5 py-3 text-white/60">{item.brand}</td>
+                      <td className="px-5 py-3 text-white/60">{item.modelNumber}</td>
+                      <td className="px-5 py-3 text-white/60">{item.serialNumber}</td>
+                      <td className="px-5 py-3 text-white/60">{item.location}</td>
+                      <td className="px-5 py-3">
+                        <span className="inline-block px-2.5 py-0.5 rounded-md text-xs font-medium bg-factory-green/15 text-factory-green">
+                          {item.state}
+                        </span>
+                      </td>
+                      <td className="px-5 py-3 text-white/60">{item.type}</td>
+                      <td className="px-5 py-3 text-white/60">{item.class}</td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan={10} className="px-5 py-10 text-center text-white/30">
+                      No inventory items available.
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+        </ShellPanel>
+      </div>
+    </FactoryPageShell>
   );
 }

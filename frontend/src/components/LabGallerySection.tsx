@@ -22,26 +22,22 @@ export default function LabGallerySection({ SectionTitle, LabSectionRows, index 
   const next = () => setLightboxIdx((i) => (i !== null ? (i + 1) % LabSectionRows.length : 0));
 
   return (
-    <section className="py-16 px-6">
+    <section className="py-12 px-6">
       <div className="max-w-6xl mx-auto">
         {/* Section header */}
-        <div className="flex items-end justify-between mb-10 gap-4">
-          <div className="flex items-center gap-4">
+        <div className="flex items-end justify-between mb-7 gap-4">
+          <div className="flex items-center gap-3">
             <span className="text-factory-green font-mono text-sm opacity-60 tabular-nums select-none">
               {String(index + 1).padStart(2, "0")}
             </span>
-            <h2 className="text-3xl md:text-4xl font-bold text-white tracking-tight">
+            <h2 className="text-2xl md:text-3xl font-bold text-white tracking-tight">
               {SectionTitle}
             </h2>
           </div>
-          <div className="hidden sm:block h-px flex-1 bg-white/10 ml-4" />
-          <span className="text-white/30 text-sm whitespace-nowrap">
-            {LabSectionRows.length} item{LabSectionRows.length !== 1 ? "s" : ""}
-          </span>
         </div>
 
-        {/* Masonry-style grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        {/* Gallery-style exposition */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-5">
           {LabSectionRows.map((row, i) => {
             const description = row.Description ? row.Description[0] : null;
             const bullets = description?.children?.flatMap((c) =>
@@ -49,14 +45,20 @@ export default function LabGallerySection({ SectionTitle, LabSectionRows, index 
             ) ?? [];
             const imgUrl = `${STRAPI_BASE}${row.Image.data.attributes.url}`;
 
-            // Give first card a wider span for visual rhythm
-            const isFeature = i === 0 && LabSectionRows.length >= 3;
+            const layoutClass =
+              i === 0
+                ? "lg:col-span-7"
+                : i % 5 === 0
+                ? "lg:col-span-6"
+                : i % 3 === 0
+                ? "lg:col-span-5"
+                : "lg:col-span-4";
 
             return (
               <div
                 key={i}
                 className={`group relative rounded-2xl overflow-hidden bg-white/5 border border-white/8 hover:border-factory-green/40 transition-all duration-300 cursor-pointer ${
-                  isFeature ? "sm:col-span-2" : ""
+                  layoutClass
                 }`}
                 onClick={() => openLightbox(i)}
                 role="button"
@@ -65,15 +67,16 @@ export default function LabGallerySection({ SectionTitle, LabSectionRows, index 
                 onKeyDown={(e) => e.key === "Enter" && openLightbox(i)}
               >
                 {/* Image */}
-                <div className={`relative overflow-hidden ${isFeature ? "h-72 sm:h-80" : "h-64"}`}>
+                <div
+                  className={`relative overflow-hidden ${
+                    i === 0 ? "h-80 md:h-104" : i % 3 === 0 ? "h-72 md:h-80" : "h-64 md:h-72"
+                  }`}
+                >
                   <Image
                     src={imgUrl}
                     alt={`${SectionTitle} — item ${i + 1}`}
                     fill
-                    sizes={isFeature
-                      ? "(max-width: 640px) 100vw, (max-width: 1024px) 100vw, 66vw"
-                      : "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                    }
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     className="object-cover transition-transform duration-500 group-hover:scale-105"
                     loading="lazy"
                     quality={75}
@@ -81,7 +84,7 @@ export default function LabGallerySection({ SectionTitle, LabSectionRows, index 
                 </div>
 
                 {/* Overlay gradient */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <div className="absolute inset-0 bg-linear-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
                 {/* Hover: expand icon hint */}
                 <div className="absolute top-3 right-3 w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 border border-white/20">
@@ -96,7 +99,7 @@ export default function LabGallerySection({ SectionTitle, LabSectionRows, index 
                     <ul className="space-y-1">
                       {bullets.map((b, bi) => (
                         <li key={bi} className="flex items-start gap-2 text-sm text-white/70">
-                          <span className="mt-1.5 w-1 h-1 rounded-full bg-factory-green flex-shrink-0" aria-hidden="true" />
+                          <span className="mt-1.5 w-1 h-1 rounded-full bg-factory-green shrink-0" aria-hidden="true" />
                           {b}
                         </li>
                       ))}
@@ -154,7 +157,7 @@ export default function LabGallerySection({ SectionTitle, LabSectionRows, index 
                   <ul className="grid sm:grid-cols-2 gap-x-8 gap-y-2">
                     {bullets.map((b, bi) => (
                       <li key={bi} className="flex items-start gap-2 text-sm text-white/75">
-                        <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-factory-green flex-shrink-0" aria-hidden="true" />
+                        <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-factory-green shrink-0" aria-hidden="true" />
                         {b}
                       </li>
                     ))}
@@ -188,11 +191,6 @@ export default function LabGallerySection({ SectionTitle, LabSectionRows, index 
           </div>
         </div>
       )}
-
-      {/* Section divider */}
-      <div className="max-w-6xl mx-auto mt-16">
-        <div className="h-px bg-white/8" />
-      </div>
     </section>
   );
 }

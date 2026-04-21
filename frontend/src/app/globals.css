@@ -79,6 +79,90 @@ its going to be under something like const styles = {}
     margin: 12px auto 0;
     border-radius: 999px;
   }
+
+  .home-ambient-base {
+    background:
+      radial-gradient(1200px 700px at 18% 10%, rgba(87, 191, 148, 0.12), transparent 62%),
+      radial-gradient(900px 600px at 82% 18%, rgba(76, 169, 129, 0.1), transparent 60%),
+      linear-gradient(180deg, #252b31 0%, #242c32 44%, #232b31 100%);
+  }
+
+  .home-ambient-grid {
+    background-image:
+      linear-gradient(rgba(87, 191, 148, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(87, 191, 148, 0.05) 1px, transparent 1px);
+    background-size: 56px 56px;
+    animation: driftGrid 22s linear infinite;
+    opacity: 0.55;
+  }
+
+  .home-ambient-light {
+    background:
+      radial-gradient(ellipse at 30% 20%, rgba(87, 191, 148, 0.18), transparent 62%),
+      radial-gradient(ellipse at 78% 58%, rgba(76, 169, 129, 0.14), transparent 60%);
+    filter: blur(24px);
+    animation: floatLight 18s ease-in-out infinite alternate;
+    opacity: 0.65;
+  }
+
+  .office-hours-surface {
+    background: linear-gradient(180deg, #252c33 0%, #242d34 45%, #232c32 100%);
+  }
+
+  .office-hours-grid {
+    background-image:
+      linear-gradient(rgba(87, 191, 148, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(87, 191, 148, 0.05) 1px, transparent 1px);
+    background-size: 52px 52px;
+    opacity: 0.5;
+    animation: officeGridShift 28s linear infinite;
+  }
+
+  .office-hours-lighting {
+    background:
+      radial-gradient(920px 500px at 50% 22%, rgba(87, 191, 148, 0.16), transparent 65%),
+      radial-gradient(740px 420px at 18% 78%, rgba(76, 169, 129, 0.08), transparent 60%),
+      radial-gradient(700px 420px at 84% 74%, rgba(76, 169, 129, 0.08), transparent 60%);
+    filter: blur(14px);
+    opacity: 0.75;
+    animation: officeLightFloat 20s ease-in-out infinite alternate;
+  }
+}
+
+@keyframes driftGrid {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(56px, 28px, 0);
+  }
+}
+
+@keyframes floatLight {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  100% {
+    transform: translate3d(-32px, 24px, 0) scale(1.05);
+  }
+}
+
+@keyframes officeGridShift {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(52px, 26px, 0);
+  }
+}
+
+@keyframes officeLightFloat {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  100% {
+    transform: translate3d(-24px, 18px, 0) scale(1.04);
+  }
 }
 
 body {

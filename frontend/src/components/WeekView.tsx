@@ -51,14 +51,14 @@ export default function WeekView(props: {
   if (!hasValidData) {
     return (
       <div className="w-full overflow-x-auto -mx-2 px-2">
-      <div className="grid grid-cols-5 gap-3" style={{ minWidth: "480px" }}>
+      <div className="grid grid-cols-5 gap-3" style={{ minWidth: "520px" }}>
         {days.map((day, i) => (
           <div key={i} className="flex flex-col gap-1">
-            <div className="text-center text-xs font-semibold uppercase tracking-widest text-gray-400 pb-2">
+            <div className="text-center text-xs font-semibold uppercase tracking-[0.14em] text-white/45 pb-2">
               <span className="hidden md:inline">{day}</span>
               <span className="md:hidden">{dayAbbr[i]}</span>
             </div>
-            <div className="rounded-lg bg-white/5 text-white/30 text-xs text-center py-3 px-1">
+            <div className="rounded-xl border border-white/10 bg-white/4 text-white/35 text-xs text-center py-3 px-1">
               Not yet finalized
             </div>
           </div>
@@ -70,11 +70,11 @@ export default function WeekView(props: {
 
   return (
     <div className="w-full overflow-x-auto -mx-2 px-2">
-      <div className="grid grid-cols-5 gap-2 md:gap-4" style={{ minWidth: "480px" }}>
+      <div className="grid grid-cols-5 gap-2 md:gap-4" style={{ minWidth: "520px" }}>
         {days.map((day, dayIndex) => (
           <div key={dayIndex} className="flex flex-col">
             {/* Day header */}
-            <div className="text-center text-[0.65rem] md:text-xs font-bold uppercase tracking-widest text-white/40 mb-3">
+            <div className="text-center text-[0.65rem] md:text-xs font-semibold uppercase tracking-[0.14em] text-white/45 mb-3">
               <span className="hidden md:inline">{day}</span>
               <span className="md:hidden">{dayAbbr[dayIndex]}</span>
             </div>
@@ -83,7 +83,7 @@ export default function WeekView(props: {
             <div className="flex flex-col" style={{ gap: `${SLOT_GAP_PX}px` }}>
               {(props.officeHours[day] ?? []).length === 0 ? (
                 <div
-                  className="rounded-xl border border-dashed border-white/10 text-white/20 text-xs text-center flex items-center justify-center"
+                  className="rounded-xl border border-dashed border-white/12 bg-white/2 text-white/25 text-xs text-center flex items-center justify-center"
                   style={{ height: `${SLOT_HEIGHT_PX * 2}px` }}
                 >
                   —
@@ -99,12 +99,12 @@ export default function WeekView(props: {
                     <button
                       key={index}
                       onClick={() => selectManager(officeHour)}
-                      className="group relative w-full rounded-xl bg-factory-green/15 border border-factory-green/25 hover:bg-factory-green hover:border-factory-green text-left overflow-hidden transition-all duration-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-factory-green focus:ring-offset-2 focus:ring-offset-factory-dark-black"
+                      className="group relative w-full rounded-xl bg-factory-green/12 border border-factory-green/30 hover:bg-factory-green/90 hover:border-factory-green text-left overflow-hidden transition-all duration-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-factory-green focus:ring-offset-2 focus:ring-offset-factory-dark-black"
                       style={{ height: `${blockHeight}px` }}
                       aria-label={`${officeHour.attributes.First_Name} office hours: ${toTimeString(officeHour.attributes.Start_Time)} to ${toTimeString(officeHour.attributes.End_Time)}`}
                     >
                       {/* Accent stripe */}
-                      <div className="absolute left-0 top-0 bottom-0 w-[3px] bg-factory-green group-hover:bg-white/50 transition-colors duration-200 rounded-l-xl" />
+                      <div className="absolute left-0 top-0 bottom-0 w-[3px] bg-factory-green group-hover:bg-white/60 transition-colors duration-200 rounded-l-xl" />
 
                       <div className="pl-3 pr-1.5 py-1.5 flex flex-col justify-center h-full">
                         <span className="block text-sm md:text-base font-semibold text-factory-green group-hover:text-white leading-tight truncate transition-colors duration-200">
