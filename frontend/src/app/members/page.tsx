@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { jwtDecode } from "jwt-decode";
 import axios from "axios";
+import FactoryPageShell, { ShellPanel } from "@/components/FactoryPageShell";
+import Spinner from "@/components/Spinner";
 
 type Member = {
   id: number;
@@ -18,14 +20,14 @@ type Member = {
 export default function Members() {
   const router = useRouter();
 
-  const [members, setMembers] = useState<Member[]>([]); // State to store members
-  const [filteredMembers, setFilteredMembers] = useState<Member[]>([]); // State to store filtered members
-  const [searchTerm, setSearchTerm] = useState<string>(""); // State for search term
-  const [loading, setLoading] = useState<boolean>(true); // State for loading status
+  const [members, setMembers] = useState<Member[]>([]);
+  const [filteredMembers, setFilteredMembers] = useState<Member[]>([]);
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
-    
+
     const token = localStorage.getItem("token");
 
     if (!token) {
@@ -49,14 +51,11 @@ export default function Members() {
     }
   }, [router]);
 
-  // Fetch members from the API using the API key from the .env file
   const fetchMembers = async () => {
     try {
-      const apiKey = process.env.NEXT_PUBLIC_API_KEY; // Access the API key from .env file
+      const apiKey = process.env.NEXT_PUBLIC_API_KEY;
       const response = await axios.get("https://factorystrapi.mcgilleus.ca/api/members", {
-        headers: {
-          Authorization: `Bearer ${apiKey}`, // Use the API key from the environment
-        },
+        headers: { Authorization: `Bearer ${apiKey}` },
       });
       const membersData = response.data.data.map((item: any) => ({
         id: item.id,
@@ -79,10 +78,7 @@ export default function Members() {
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     const searchValue = event.target.value.toLowerCase();
     setSearchTerm(searchValue);
-    const filtered = members.filter((member) =>
-      member.name.toLowerCase().includes(searchValue)
-    );
-    setFilteredMembers(filtered);
+    setFilteredMembers(members.filter((m) => m.name.toLowerCase().includes(searchValue)));
   };
 
   const handleAddMember = () => {
@@ -90,79 +86,90 @@ export default function Members() {
   };
 
   const handleModifyMember = (memberId: number) => {
-    router.push(`/modify-member/${memberId}`); // Navigate to modify member page
+    router.push(`/modify-member/${memberId}`);
   };
 
-  return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-3xl mb-4 font-bold">Members Page</h1>
+  if (loading) return <Spinner />;
 
-      {/* Action Buttons */}
-      <div className="mb-4 flex justify-between">
-        <input
-          type="text"
-          placeholder="Search by name"
-          value={searchTerm}
-          onChange={handleSearch}
-          className="border border-gray-300 p-2 rounded-md w-1/2"
-        />
-        <div>
+  return (
+    <FactoryPageShell
+      hero={{
+        eyebrow: "Admin",
+        title: "Members",
+        description: `${members.length} registered members in the Factory network.`,
+      }}
+    >
+      <div className="max-w-360 mx-auto px-6 pb-16">
+        {/* Toolbar */}
+        <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
+          <input
+            type="text"
+            placeholder="Search by name…"
+            value={searchTerm}
+            onChange={handleSearch}
+            className="flex-1 min-w-[200px] max-w-sm bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-white placeholder-white/30 text-sm focus:outline-none focus:border-factory-green/60 transition-colors"
+          />
           <button
             onClick={handleAddMember}
-            className="bg-blue-500 text-white py-2 px-4 rounded-md mr-2"
+            className="bg-factory-green hover:bg-factory-dark-green text-white font-semibold px-5 py-2.5 rounded-xl text-sm transition-colors"
           >
-            Add New Member
+            + Add Member
           </button>
         </div>
-      </div>
 
-      {loading ? (
-        <p>Loading...</p>
-      ) : (
-        <div className="overflow-x-auto">
-          <table className="min-w-full bg-white shadow-md rounded-lg">
-            <thead>
-              <tr className="bg-gray-100 text-left">
-                <th className="py-2 px-4 border-b">Name</th>
-                <th className="py-2 px-4 border-b">Student ID</th>
-                <th className="py-2 px-4 border-b">Email</th>
-                <th className="py-2 px-4 border-b">Phone Number</th>
-                <th className="py-2 px-4 border-b">Department</th>
-                <th className="py-2 px-4 border-b">Year</th>
-                <th className="py-2 px-4 border-b">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredMembers.length > 0 ? (
-                filteredMembers.map((member) => (
-                  <tr key={member.id} className="hover:bg-gray-50">
-                    <td className="py-2 px-4 border-b">{member.name}</td>
-                    <td className="py-2 px-4 border-b">{member.studentId}</td>
-                    <td className="py-2 px-4 border-b">{member.email}</td>
-                    <td className="py-2 px-4 border-b">{member.phoneNumber}</td>
-                    <td className="py-2 px-4 border-b">{member.department}</td>
-                    <td className="py-2 px-4 border-b">{member.year}</td>
-                    <td className="py-2 px-4 border-b">
-                      <button
-                        onClick={() => handleModifyMember(member.id)}
-                        className="bg-green-500 text-white py-1 px-3 rounded-md"
-                      >
-                        Modify
-                      </button>
+        <ShellPanel>
+          <div className="overflow-x-auto">
+            <table className="min-w-full text-sm text-white/80">
+              <thead>
+                <tr className="border-b border-white/10 bg-white/5 text-white/50 uppercase text-xs tracking-widest">
+                  <th className="px-5 py-3 text-left font-semibold">Name</th>
+                  <th className="px-5 py-3 text-left font-semibold">Student ID</th>
+                  <th className="px-5 py-3 text-left font-semibold">Email</th>
+                  <th className="px-5 py-3 text-left font-semibold">Phone</th>
+                  <th className="px-5 py-3 text-left font-semibold">Department</th>
+                  <th className="px-5 py-3 text-left font-semibold">Year</th>
+                  <th className="px-5 py-3 text-left font-semibold">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredMembers.length > 0 ? (
+                  filteredMembers.map((member) => (
+                    <tr
+                      key={member.id}
+                      className="border-b border-white/5 hover:bg-white/6 transition-colors"
+                    >
+                      <td className="px-5 py-3 font-medium text-white">{member.name}</td>
+                      <td className="px-5 py-3 text-white/60">{member.studentId}</td>
+                      <td className="px-5 py-3 text-white/60">{member.email}</td>
+                      <td className="px-5 py-3 text-white/60">{member.phoneNumber}</td>
+                      <td className="px-5 py-3 text-white/60">{member.department}</td>
+                      <td className="px-5 py-3">
+                        <span className="inline-block px-2.5 py-0.5 rounded-md text-xs font-medium bg-factory-green/15 text-factory-green">
+                          {member.year}
+                        </span>
+                      </td>
+                      <td className="px-5 py-3">
+                        <button
+                          onClick={() => handleModifyMember(member.id)}
+                          className="bg-factory-green/15 hover:bg-factory-green text-factory-green hover:text-white px-3 py-1 rounded-lg text-xs font-semibold transition-colors"
+                        >
+                          Modify
+                        </button>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan={7} className="px-5 py-10 text-center text-white/30">
+                      No members found.
                     </td>
                   </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan={7} className="py-4 text-center">
-                    No members found.
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
-      )}
-    </div>
+                )}
+              </tbody>
+            </table>
+          </div>
+        </ShellPanel>
+      </div>
+    </FactoryPageShell>
   );
 }

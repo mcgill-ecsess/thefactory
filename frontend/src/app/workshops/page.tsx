@@ -5,6 +5,7 @@ import { UpcomingWorkshops } from "@/components/UpcomingWorkshops";
 import { WorkshopDT } from "@/types/WorkshopDT";
 import { useManagerAndLabData } from "@/Contexts/ManagerAndLabContext";
 import Spinner from "@/components/Spinner";
+import FactoryPageShell from "@/components/FactoryPageShell";
 
 export default function Workshops() {
   const { workshops } = useManagerAndLabData();
@@ -26,20 +27,21 @@ export default function Workshops() {
   });
 
   return (
-    <div className="min-h-screen bg-white">
-      {/* Page header */}
-      <div className="bg-factory-black py-14 px-6 text-center">
-        <h1 className="text-4xl md:text-5xl font-bold text-white mb-3">Workshops</h1>
-        <div className="section-divider" />
-        <p className="text-white/50 text-base max-w-md mx-auto mt-2">
-          Hands-on sessions to help you learn and build.
-        </p>
-      </div>
+    <FactoryPageShell
+      className="relative office-hours-surface"
+      hero={{
+        eyebrow: "Build. Learn. Share.",
+        title: "Workshops",
+        description: "Hands-on sessions run by students for students building real hardware projects.",
+      }}
+    >
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 office-hours-grid" />
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 office-hours-lighting" />
 
-      <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 py-14 flex flex-col gap-12">
+      <div className="relative z-10 w-full max-w-6xl mx-auto px-6 pb-16 flex flex-col gap-8">
         <UpcomingWorkshops upcomingWorkshops={upcomingWorkshops} />
         <PastWorkshops pastWorkshops={pastWorkshops} />
       </div>
-    </div>
+    </FactoryPageShell>
   );
 }

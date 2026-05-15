@@ -80,7 +80,7 @@ export default function ManagerInfo(props: {
                   alt={manager.attributes.First_Name}
                   fill
                   sizes="80px"
-                  className="object-cover object-top"
+                  className="object-cover object-center"
                   loading="eager"
                   quality={75}
                 />

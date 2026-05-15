@@ -18,12 +18,12 @@ export default function ManagerCard(props: {
     <button
       onClick={() => props.onClick(manager)}
       aria-label={`View profile of ${manager.attributes.First_Name} ${manager.attributes.Last_Name}`}
-      className="group flex flex-col items-center gap-3 p-5 rounded-xl w-full text-center
-                 hover:bg-white/5 active:bg-white/8 transition-colors duration-150"
+      className="group flex flex-col items-center gap-3 p-4 rounded-2xl w-full text-center border border-white/8 bg-white/3
+                 hover:bg-factory-green/10 hover:border-factory-green/35 active:bg-factory-green/15 transition-all duration-200"
     >
       {/* Avatar */}
-      <div className="relative w-[72px] h-[72px] rounded-full overflow-hidden shrink-0
-                      ring-2 ring-white/10 group-hover:ring-factory-green/60
+      <div className="relative w-[76px] h-[76px] rounded-full overflow-hidden shrink-0
+                      ring-2 ring-white/12 group-hover:ring-factory-green/70
                       transition-all duration-200 bg-white/5">
         {pictureUrl ? (
           <Image
@@ -31,7 +31,7 @@ export default function ManagerCard(props: {
             alt={manager.attributes.First_Name}
             fill
             sizes="72px"
-            className="object-cover object-top"
+            className="object-cover object-center"
             loading="lazy"
             quality={60}
           />
@@ -45,10 +45,10 @@ export default function ManagerCard(props: {
 
       {/* Text */}
       <div className="flex flex-col items-center gap-1">
-        <span className="text-white font-semibold text-sm leading-tight text-balance">
+        <span className="text-white font-semibold text-sm md:text-[0.95rem] leading-tight text-balance">
           {manager.attributes.Modified_First_Name ?? manager.attributes.First_Name}
         </span>
-        <span className="text-white/40 text-xs leading-snug text-balance">
+        <span className="text-white/45 text-xs leading-snug text-balance">
           {manager.attributes.Role}
         </span>
       </div>

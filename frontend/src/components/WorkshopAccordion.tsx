@@ -28,6 +28,12 @@ export function WorkshopAccordion(props: {
 
   return (
     <Box className="flex flex-col">
+      {props.workshops.length === 0 && (
+        <div className="rounded-2xl border border-white/10 bg-white/3 px-5 py-10 text-center">
+          <p className="text-base text-white/70 font-medium">No workshops in this section yet.</p>
+          <p className="text-sm text-white/45 mt-1">Check back soon for new events and resources.</p>
+        </div>
+      )}
       {props.workshops.map((workshop) => {
         const startDateTime = new Date(
           `${workshop.attributes.Date}T${workshop.attributes.StartTime}`
@@ -60,27 +66,33 @@ export function WorkshopAccordion(props: {
         );
       
       
-        let isFutureWorkshop = false;
-        if(workshopStartDateTime > new Date()){
-           isFutureWorkshop = true;
-        }
-       
+        const isFutureWorkshop = workshopStartDateTime > new Date();
+
+        const darkAccordionSx = {
+          background: "rgba(255,255,255,0.03)",
+          border: "1px solid rgba(255,255,255,0.08)",
+          borderRadius: "16px !important",
+          mb: 1.5,
+          "&:before": { display: "none" },
+          color: "rgba(255,255,255,0.9)",
+          ...props.sx,
+        };
 
         return (
           <Accordion
             key={workshop.id}
             disableGutters={true}
-            sx={props.sx}
-            className="w-full pb-3"
+            sx={darkAccordionSx}
+            className="w-full"
           >
             <AccordionSummary
               expandIcon={
-                <div className="flex flex-row items-center shrink-0">
+                <div className="flex flex-row items-center shrink-0 text-white/50">
                   <ExpandMoreOutlined />
                 </div>
               }
               className="p-0 m-0 w-full"
-              sx={{ "& .MuiAccordionSummary-content": { width: "100%", minWidth: 0 } }}
+              sx={{ "& .MuiAccordionSummary-content": { width: "100%", minWidth: 0 }, px: 2, py: 1.5 }}
             >
               <Box className="flex flex-row items-start gap-3 w-full min-w-0">
                 <Box
@@ -88,12 +100,14 @@ export function WorkshopAccordion(props: {
                   src={`https://factorystrapi.mcgilleus.ca${workshop.attributes.CoverPicture.data[0].attributes.url}`}
                   className="h-16 w-16 sm:h-20 sm:w-20 md:h-24 md:w-24 rounded-sm aspect-square shrink-0 object-cover"
                 />
-                <Box className="flex flex-col gap-1 min-w-0 flex-1">
-                  <h4 className="text-lg sm:text-2xl md:text-3xl lg:text-4xl font-medium leading-tight">
+                <Box className="flex flex-col gap-1.5 min-w-0 flex-1">
+                  <h4 className="text-lg sm:text-xl md:text-2xl font-semibold leading-snug tracking-tight">
                     {workshop.attributes.WorkshopTitle}
                   </h4>
-                  <Typography className="text-sm sm:text-base break-words">{eventDetails}</Typography>
-                  <div className="flex gap-3 sm:gap-7 flex-row flex-wrap mt-1">
+                  <Typography className="text-sm md:text-base wrap-break-word" sx={{ color: "rgba(255,255,255,0.58)" }}>
+                    {eventDetails}
+                  </Typography>
+                  <div className="flex gap-3 sm:gap-6 flex-row flex-wrap mt-1">
                     {workshop.attributes.workshopSlides && (
                       <Link
                         underline={"hover"}
@@ -105,8 +119,8 @@ export function WorkshopAccordion(props: {
                           },
                         }}
                       >
-                        <p className="flex gap-2 mt-1 items-center font-bold text-factory-green text-sm">
-                          <Presentation size={18} />
+                        <p className="flex gap-2 mt-1 items-center font-semibold text-factory-green text-sm">
+                          <Presentation size={16} />
                           View Workshop Slides
                         </p>
                       </Link>
@@ -123,8 +137,8 @@ export function WorkshopAccordion(props: {
                           },
                         }}
                       >
-                        <p className="flex gap-2 mt-1 items-center font-bold text-factory-green text-sm">
-                          <UserRoundCheck size={18} />
+                        <p className="flex gap-2 mt-1 items-center font-semibold text-factory-green text-sm">
+                          <UserRoundCheck size={16} />
                           Sign Up Form
                         </p>
                       </Link>
@@ -133,11 +147,11 @@ export function WorkshopAccordion(props: {
                 </Box>
               </Box>
             </AccordionSummary>
-            <AccordionDetails className="pt-4">
-              <Typography variant="h6" className="text-left">
+            <AccordionDetails sx={{ px: 2, pb: 2, pt: 0, borderTop: "1px solid rgba(255,255,255,0.08)" }}>
+              <Typography variant="h6" className="text-left" sx={{ color: "rgba(255,255,255,0.9)", mb: 0.5, fontSize: "1rem", fontWeight: 600 }}>
                 Details
               </Typography>
-              <Typography className="text-left">
+              <Typography className="text-left" sx={{ color: "rgba(255,255,255,0.6)", fontSize: "0.95rem", lineHeight: 1.65 }}>
                 {workshop.attributes.Details}
               </Typography>
             </AccordionDetails>

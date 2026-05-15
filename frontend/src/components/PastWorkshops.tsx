@@ -4,7 +4,6 @@ import { ThemeProvider } from "@mui/material/styles";
 import theme from "@/theme";
 import { WorkshopAccordion } from "./WorkshopAccordion";
 import { WorkshopDT } from "../types/WorkshopDT";
-import { PageSection } from "./PageSection";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import React from "react";
@@ -51,13 +50,35 @@ export function PastWorkshops(props: PastWorkshopsProps) {
 
   return (
     <ThemeProvider theme={theme}>
-      <PageSection title="Past Workshops" color="black">
+      <section className="py-2">
+        <div className="mb-5">
+          <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-white">Past Workshops</h2>
+          <p className="text-sm md:text-base text-white/50 mt-1.5">
+            Browse previous semesters and revisit workshop material.
+          </p>
+        </div>
         <Tabs
           value={value}
           onChange={handleChange}
           variant="scrollable"
           scrollButtons="auto"
           aria-label="scrollable auto tabs example"
+          sx={{
+            minHeight: 42,
+            mb: 2,
+            "& .MuiTab-root": {
+              color: "rgba(255,255,255,0.5)",
+              textTransform: "none",
+              letterSpacing: "0.01em",
+              fontSize: "0.92rem",
+              fontWeight: 600,
+              minHeight: 42,
+              px: 2,
+            },
+            "& .MuiTab-root.Mui-selected": { color: "#57bf94" },
+            "& .MuiTabs-indicator": { backgroundColor: "#57bf94" },
+            "& .MuiTabScrollButton-root": { color: "rgba(255,255,255,0.4)" },
+          }}
         >
           {semesters.map((semester, index) => (
             <Tab label={semester} key={index} />
@@ -72,7 +93,7 @@ export function PastWorkshops(props: PastWorkshopsProps) {
             key={index}
           />
         ))}
-      </PageSection>
+      </section>
     </ThemeProvider>
   );
 }

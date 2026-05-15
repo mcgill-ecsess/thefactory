@@ -23,14 +23,15 @@ const NavDrawer = (props: NavDrawerProps) => {
       {/* Backdrop */}
       {props.isDrawerOpen && (
         <div
-          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 lg:hidden"
+          className="fixed inset-0 bg-black/55 backdrop-blur-sm z-55 lg:hidden"
           onClick={props.toggleDrawer}
         />
       )}
 
       {/* Drawer */}
       <div
-        className={`fixed top-0 left-0 h-full w-72 bg-factory-blue z-50 flex flex-col transform transition-transform duration-300 ease-in-out lg:hidden ${
+        id="mobile-navigation-drawer"
+        className={`fixed top-0 left-0 h-full w-[84vw] max-w-80 bg-on-surface z-60 flex flex-col transform transition-transform duration-300 ease-in-out lg:hidden ${
           props.isDrawerOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >

@@ -45,21 +45,11 @@ export function WeekViewSection(props: WeekViewSectionProps) {
   };
 
   return (
-    <section className="py-16 px-6 bg-factory-dark-black min-h-[600px]">
-      <div className="max-w-5xl mx-auto">
-        {/* Header */}
-        <div className="text-center mb-10">
-          <span className="inline-block text-factory-green text-xs font-bold uppercase tracking-widest mb-3">
-            Lab Schedule
-          </span>
-          <h2 className="text-3xl md:text-4xl font-bold text-white text-balance">
-            Office Hours
-          </h2>
-          <div className="section-divider !bg-factory-green mt-3" />
-          <p className="text-white/40 text-sm mt-4">
-            Click any block to see manager details &amp; contact info
-          </p>
-        </div>
+    <section className="px-6 pb-10">
+      <div className="max-w-6xl mx-auto">
+        <p className="text-center text-white/45 text-sm md:text-base mb-6">
+          Click any block to see manager details &amp; contact info
+        </p>
 
         <WeekView
           officeHours={officeHours}

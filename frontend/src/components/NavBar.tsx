@@ -47,21 +47,25 @@ function NavBar(props: NavBarProps) {
     <>
       {/* Mobile Navbar */}
       <nav
-        className={`lg:hidden h-16 flex justify-between items-center px-5 sticky top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        className={`lg:hidden h-16 flex justify-between items-center px-4 sm:px-5 sticky top-0 left-0 right-0 z-50 transition-all duration-300 ${
           scrolled
             ? "bg-white/95 backdrop-blur-xl shadow-sm border-b border-gray-200/60"
             : "bg-white/80 backdrop-blur-xl border-b border-gray-200/30"
         }`}
       >
-        <img
-          src="/logo/factory_logo_inline.png"
-          alt="Factory Logo"
-          className="h-8"
-        />
+        <Link href="/" className="flex items-center min-w-0">
+          <img
+            src="/logo/factory_logo_inline.png"
+            alt="Factory Logo"
+            className="h-7 sm:h-8 w-auto max-w-[170px] object-contain"
+          />
+        </Link>
         <button
           onClick={props.toggleDrawer}
-          className="p-2 rounded-lg hover:bg-gray-100 transition-colors duration-200"
+          className="p-2.5 rounded-lg hover:bg-gray-100 transition-colors duration-200 shrink-0"
           aria-label="Toggle menu"
+          aria-expanded={props.isDrawerOpen}
+          aria-controls="mobile-navigation-drawer"
         >
           {props.isDrawerOpen ? (
             <X size={24} color="#374151" />
@@ -134,7 +138,7 @@ function NavBar(props: NavBarProps) {
             >
               Contact Us
             </button>
-            <button className="cursor-pointer bg-gradient-to-br from-primary to-primary-container hover:bg-factory-dark-green text-white px-6 py-2.5 rounded-lg text-sm font-semibold tracking-wide transition-all duration-200 hover:shadow-lg hover:shadow-factory-green/25 active:scale-95">
+            <button className="cursor-pointer bg-linear-to-br from-primary to-primary-container hover:bg-factory-dark-green text-white px-6 py-2.5 rounded-lg text-sm font-semibold tracking-wide transition-all duration-200 hover:shadow-lg hover:shadow-factory-green/25 active:scale-95">
               Become a Member
             </button>
           </div>
@@ -144,7 +148,7 @@ function NavBar(props: NavBarProps) {
       {/* Contact Popup */}
       {contactPopupOpen && (
         <div
-          className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-[100] p-4"
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-100 p-4"
           onClick={() => setContactPopupOpen(false)}
         >
           <div
