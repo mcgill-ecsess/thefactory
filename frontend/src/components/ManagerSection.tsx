@@ -16,19 +16,27 @@ const roleOrder = [
   "Finance Manager",
   "Workshop Manager",
   "Communications Manager",
+  "Services Manager",
 ];
+
+// Role is free text in Strapi, so ignore case, extra spaces and a missing plural "s"
+// ("Communication Manager" vs "Communications Manager").
+const normalizeRole = (role: string | null | undefined) =>
+  (role ?? "").trim().replace(/\s+/g, " ").toLowerCase().replace(/s manager$/, " manager");
+
+const normalizedRoleOrder = roleOrder.map(normalizeRole);
+const steeringRank = (m: FactoryManager) => normalizedRoleOrder.indexOf(normalizeRole(m.attributes.Role));
 
 export function ManagerSection(props: ManagerSectionProps) {
   const [open, setOpen] = useState(false);
   const [selectedManager, setSelectedManager] = useState<FactoryManager | null>(null);
 
   const steeringCommittee = props.managers
-    .filter((m) => roleOrder.includes(m.attributes.Role))
-    .sort((a, b) => roleOrder.indexOf(a.attributes.Role) - roleOrder.indexOf(b.attributes.Role));
+    .filter((m) => steeringRank(m) !== -1)
+    .sort((a, b) => steeringRank(a) - steeringRank(b));
 
-  const generalManagers = props.managers.filter(
-    (m) => m.attributes.Role === "General Manager" || m.attributes.Role === "Factory Advisor"
-  );
+  // Anyone not on the steering committee is listed here, so an unknown role never hides a manager.
+  const generalManagers = props.managers.filter((m) => steeringRank(m) === -1);
 
   const selectManager = (manager: FactoryManager) => {
     setSelectedManager(manager);
