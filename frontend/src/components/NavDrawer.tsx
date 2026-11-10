@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { PUBLIC_INVENTORY_URL } from "@/data/links";
 
 type NavDrawerProps = {
   toggleDrawer: () => void;
@@ -66,6 +67,15 @@ const NavDrawer = (props: NavDrawerProps) => {
               </Link>
             );
           })}
+          <a
+            href={PUBLIC_INVENTORY_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={props.toggleDrawer}
+            className="flex items-center gap-3 px-4 py-3 rounded-xl text-base font-medium transition-all duration-200 text-white/75 hover:bg-white/10 hover:text-white"
+          >
+            Inventory
+          </a>
         </nav>
 
         {/* Contact footer */}

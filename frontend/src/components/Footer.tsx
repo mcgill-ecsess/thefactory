@@ -2,6 +2,7 @@
 
 import { Facebook, Instagram, Linkedin, Mail } from "lucide-react";
 import Link from "next/link";
+import { PUBLIC_INVENTORY_URL } from "@/data/links";
 
 const socialLinks = [
   {
@@ -60,6 +61,7 @@ export default function Footer() {
               <Link href="/office-hours" className="text-white/65 hover:text-white transition-colors">Office Hours</Link>
               <Link href="/workshops" className="text-white/65 hover:text-white transition-colors">Workshops</Link>
               <Link href="/our-lab" className="text-white/65 hover:text-white transition-colors">Our Lab</Link>
+              <a href={PUBLIC_INVENTORY_URL} target="_blank" rel="noopener noreferrer" className="text-white/65 hover:text-white transition-colors">Inventory</a>
             </div>
 
             <h3 className="text-xs font-semibold uppercase tracking-[0.18em] text-factory-green mt-8 mb-4">
@@ -68,7 +70,9 @@ export default function Footer() {
             <div className="flex flex-col gap-2 text-sm">
               <Link href="/add-member" className="text-white/45 hover:text-white transition-colors">Membership Form</Link>
               <Link href="/login" className="text-white/45 hover:text-white transition-colors">Manager Login</Link>
-              <Link href="/inventory" className="text-white/45 hover:text-white transition-colors">Inventory</Link>
+              <Link href="/inventory" className="text-white/45 hover:text-white transition-colors">
+                Inventory <span className="text-xs italic text-white/30">(Work in progress)</span>
+              </Link>
               {/* <Link href="/members" className="text-white/45 hover:text-white transition-colors">Members</Link> */}
             </div>
           </div>
