@@ -2,7 +2,7 @@
 
 import { Facebook, Instagram, Linkedin, Mail } from "lucide-react";
 import Link from "next/link";
-import { PUBLIC_INVENTORY_URL } from "@/data/links";
+import { GM_INVENTORY_URL, PUBLIC_INVENTORY_URL } from "@/data/links";
 
 const socialLinks = [
   {
@@ -70,6 +70,7 @@ export default function Footer() {
             <div className="flex flex-col gap-2 text-sm">
               <Link href="/add-member" className="text-white/45 hover:text-white transition-colors">Membership Form</Link>
               <Link href="/login" className="text-white/45 hover:text-white transition-colors">Manager Login</Link>
+              <a href={GM_INVENTORY_URL} target="_blank" rel="noopener noreferrer" className="text-white/45 hover:text-white transition-colors">Inventory Sign-in (General Managers only)</a>
               <Link href="/inventory" className="text-white/45 hover:text-white transition-colors">
                 Inventory <span className="text-xs italic text-white/30">(Work in progress)</span>
               </Link>
