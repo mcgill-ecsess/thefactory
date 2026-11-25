@@ -16,6 +16,7 @@ import {
   Calendar,
 } from "lucide-react";
 import Link from "next/link";
+import { MEMBERSHIP_FORM_URL } from "@/data/links";
 import Faq from "react-faq-component";
 import { FAQDT } from "@/types/FAQDT";
 import { useEffect, useState } from "react";
@@ -117,7 +118,7 @@ export default function Home() {
             </p>
             <div className="flex flex-wrap gap-3 md:gap-6">
               <a
-                href="https://factorydb.notkaramel.dev/dashboard/#/nc/form/b1f34cd8-bde2-490c-abd9-dadbada72737"
+                href={MEMBERSHIP_FORM_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="bg-factory-green hover:bg-factory-dark-green text-white px-6 md:px-10 py-3.5 md:py-5 rounded-xl font-bold tracking-wider uppercase text-sm md:text-base shadow-xl shadow-factory-green/10 hover:shadow-factory-green/20 transition-all"
@@ -259,7 +260,7 @@ export default function Home() {
           </div>
 
           <a
-            href="https://factorydb.notkaramel.dev/dashboard/#/nc/form/b1f34cd8-bde2-490c-abd9-dadbada72737"
+            href={MEMBERSHIP_FORM_URL}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 bg-factory-green hover:bg-factory-dark-green text-white font-bold px-8 py-3.5 rounded-xl transition-all duration-200 hover:shadow-lg hover:shadow-factory-green/30 active:scale-95 tracking-wide"

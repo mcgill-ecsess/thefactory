@@ -5,7 +5,7 @@ import { Menu, X, Copy, Check } from "lucide-react";
 import { LoginContext } from "../Contexts/LoginContext";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { PUBLIC_INVENTORY_URL } from "@/data/links";
+import { MEMBERSHIP_FORM_URL, PUBLIC_INVENTORY_URL } from "@/data/links";
 
 type NavBarProps = {
   toggleDrawer: () => void;
@@ -143,9 +143,9 @@ function NavBar(props: NavBarProps) {
             >
               Contact Us
             </button>
-            <button className="cursor-pointer bg-linear-to-br from-primary to-primary-container hover:bg-factory-dark-green text-white px-6 py-2.5 rounded-lg text-sm font-semibold tracking-wide transition-all duration-200 hover:shadow-lg hover:shadow-factory-green/25 active:scale-95">
+            <a href={MEMBERSHIP_FORM_URL} target="_blank" rel="noopener noreferrer" className="cursor-pointer bg-linear-to-br from-primary to-primary-container hover:bg-factory-dark-green text-white px-6 py-2.5 rounded-lg text-sm font-semibold tracking-wide transition-all duration-200 hover:shadow-lg hover:shadow-factory-green/25 active:scale-95">
               Become a Member
-            </button>
+            </a>
           </div>
         </div>
       </header>
